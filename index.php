@@ -42,10 +42,13 @@ if (defined('ENVIRONMENT'))
 			error_reporting(E_ALL);
 		break;
 	
-		case 'testing':
-		case 'production':
-			error_reporting(0);
-		break;
+	case 'testing':
+	case 'production':
+		// Habilitar errores temporalmente para debugging en Railway
+		// TODO: Deshabilitar en producción final
+		error_reporting(E_ALL);
+		ini_set('display_errors', 1);
+	break;
 
 		default:
 			exit('The application environment is not set correctly.');
