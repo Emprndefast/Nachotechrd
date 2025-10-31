@@ -3,7 +3,7 @@
   "description": "Sistema Profesional de Gestión GSM - NachoTechRD",
   "type": "project",
   "require": {
-    "php": "^7.4",
+    "php": "^8.1",
     "ext-mysqli": "*",
     "ext-curl": "*",
     "ext-mbstring": "*",
@@ -12,7 +12,7 @@
   },
   "config": {
     "platform": {
-      "php": "7.4"
+      "php": "8.1"
     }
   }
 }
