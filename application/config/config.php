@@ -14,7 +14,7 @@
 | path to your installation.
 |
 */
-$config['base_url']						= 	'http://localhost/exclusiveunlock/';
+$config['base_url']						= 	'http://localhost/nachotechrd/';
 $config['assets_url']					= 	$config['base_url'].'assets/';
 $config['page_url']						= 	$config['base_url'].'uploads/cms/pages/';
 $config['page_thumb_url']				= 	$config['base_url'].'uploads/cms/pages/thumbs/';
@@ -225,7 +225,7 @@ $config['directory_trigger']	= 'd'; // experimental not currently in use
 | your log files will fill up very fast.
 |
 */
-$config['log_threshold'] = 1;
+$config['log_threshold'] = 4; // 0=disable, 1=error, 2=debug, 3=info, 4=all
 
 /*
 |--------------------------------------------------------------------------
@@ -269,7 +269,7 @@ $config['cache_path'] = '';
 | MUST set an encryption key.  See the user guide for info.
 |
 */
-$config['encryption_key'] = 'wwwibussolutionscom';
+$config['encryption_key'] = '7E1ADC2B5DBE464C63A70DD40CC0DDEBC32';
 
 /*
 |--------------------------------------------------------------------------
@@ -289,12 +289,12 @@ $config['encryption_key'] = 'wwwibussolutionscom';
 | 'sess_time_to_update'		= how many seconds between CI refreshing Session Information
 |
 */
-$config['sess_cookie_name']		= 'exclusive_session';
+$config['sess_cookie_name']		= 'ci_session';
 $config['sess_expiration']		= 7200;
 $config['sess_expire_on_close']	= FALSE;
 $config['sess_encrypt_cookie']	= FALSE;
 $config['sess_use_database']	= FALSE;
-$config['sess_table_name']		= 'exclusive_sessions';
+$config['sess_table_name']		= 'ci_sessions';
 $config['sess_match_ip']		= FALSE;
 $config['sess_match_useragent']	= TRUE;
 $config['sess_time_to_update']	= 300;
@@ -324,7 +324,7 @@ $config['cookie_secure']	= FALSE;
 | COOKIE data is encountered
 |
 */
-$config['global_xss_filtering'] = TRUE;
+$config['global_xss_filtering'] = FALSE;
 
 /*
 |--------------------------------------------------------------------------
@@ -338,9 +338,9 @@ $config['global_xss_filtering'] = TRUE;
 | 'csrf_cookie_name' = The cookie name
 | 'csrf_expire' = The number in seconds the token should expire.
 */
-$config['csrf_protection'] = TRUE;
-$config['csrf_token_name'] = 'csrf_exclusive';
-$config['csrf_cookie_name'] = 'csrf_cookie_exclusive';
+$config['csrf_protection'] = FALSE;
+$config['csrf_token_name'] = 'csrf_test_name';
+$config['csrf_cookie_name'] = 'csrf_cookie_name';
 $config['csrf_expire'] = 7200;
 
 /*

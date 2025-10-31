@@ -118,9 +118,11 @@ class imeiorder_model extends CI_Model
 	{
 		$sql = "SELECT `gsm_imei_orders`.`ID`,  gsm_imei_orders.IMEI,
 		 `gsm_methods`.`Title`, `gsm_imei_orders`.`Email`, `gsm_imei_orders`.`Note`, 
-		 `gsm_imei_orders`.`Status`, `gsm_imei_orders`.`CreatedDateTime` FROM (`gsm_imei_orders`) INNER JOIN 
+		 `gsm_imei_orders`.`Code`, `gsm_imei_orders`.`Status`, `gsm_imei_orders`.`CreatedDateTime` 
+		 FROM (`gsm_imei_orders`) INNER JOIN 
 		 `gsm_methods` ON `gsm_imei_orders`.`MethodID`=`gsm_methods`.`ID` WHERE 
-		 `gsm_imei_orders`.`MemberID` = '$id' AND `gsm_imei_orders`.`Status` = '$status' ";
+		 `gsm_imei_orders`.`MemberID` = '$id' AND `gsm_imei_orders`.`Status` = '$status' 
+		 ORDER BY `gsm_imei_orders`.`CreatedDateTime` DESC";
 		 $result = $this->db->query($sql);
 		 return $result->result_array();
 	}

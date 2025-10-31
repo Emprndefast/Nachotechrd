@@ -19,6 +19,12 @@
  *
  */
 	define('ENVIRONMENT', 'production');
+
+// Aumentar límite de variables de entrada para formularios con muchos servicios
+// Esto evita el error "Input variables exceeded 1000" al agregar muchos servicios
+if (ini_get('max_input_vars') < 5000) {
+    @ini_set('max_input_vars', 5000);
+}
 /*
  *---------------------------------------------------------------
  * ERROR REPORTING

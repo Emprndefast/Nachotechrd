@@ -31,6 +31,25 @@ class fileservices_model extends CI_Model
         return $query->result_array();
     }
     
+    /**
+     * Obtener servicios Server desde gsm_methods
+     * Los servicios Server se guardan en gsm_methods cuando se agregan desde APIs de tipo "Server"
+     * IMPORTANTE: Solo muestra servicios de APIs activas
+     */
+    public function get_server_services() 
+    {
+        $this->db->select("gsm_methods.ID, gsm_methods.Title, gsm_methods.DeliveryTime, gsm_methods.Price, gsm_methods.Status, gsm_methods.Description")
+        ->from("gsm_methods")
+        ->join("gsm_apis", "gsm_methods.ApiID = gsm_apis.ID", "inner")
+        ->where("gsm_apis.ApiType", "Server")
+        ->where("gsm_methods.Status", "Enabled")
+        ->where("gsm_apis.Status", "Enabled") // ← AGREGADO: Solo APIs activas
+        ->order_by("gsm_methods.Title", "ASC");
+        
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+    
     public function count_all() 
     {
         $query = $this->db->count_all($this->tbl_name);
@@ -83,6 +102,17 @@ class fileservices_model extends CI_Model
 	public function delete_file_api($api_id)
     {
         $this->db->delete($this->tbl_name, array('ApiID' => $api_id));                
+    }
+    
+    /**
+     * Actualizar Status de todos los file services asociados a una API
+     * Usado cuando se activa/desactiva una API
+     */
+    public function update_batch_status_by_api($api_id, $status)
+    {
+        $this->db->where('ApiID', $api_id);
+        $this->db->update($this->tbl_name, array('Status' => $status, 'UpdatedDateTime' => date("Y-m-d H:i:s")));
+        return $this->db->affected_rows();
     }
 	
 	function get_datatable($access)

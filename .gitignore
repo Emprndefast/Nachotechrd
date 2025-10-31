@@ -1,0 +1,51 @@
+# Ignorar archivos de herramientas de desarrollo y testing
+tools/
+dev/
+test/
+
+# Archivos de documentación (markdown)
+*.md
+!README.md
+
+# Archivos de debug y test
+*test*.php
+*debug*.php
+*diagnostico*.php
+*fix*.php
+*verificar*.php
+*crear*.php
+*create*.php
+*check*.php
+*limpiar*.php
+*ver_*.php
+*ejecutar_cron*.php
+
+# Mantener archivos del sistema
+!application/controllers/debug.php
+!application/controllers/admin/membertest.php
+!application/views/admin/apimanager/diagnostico_frontend.php
+!system/libraries/Unit_test.php
+!system/language/english/unit_test_lang.php
+
+# Archivos de configuración local
+application/config/database.php
+application/config/config.php
+application/logs/*.php
+
+# Archivos temporales
+*.tmp
+*.bak
+*.swp
+*~
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+

@@ -143,14 +143,46 @@ class imeirequest extends FSD_Controller
 		
 		$this->load->library('form_validation');
 		$this->form_validation->set_rules('MethodID' , 'Method' ,'required');
-		$this->form_validation->set_rules('IMEI' , 'IMEI' ,'trim|required|callback_imei_check');
-		$this->form_validation->set_rules('Email' , 'Email' ,'valid_email');
+		
+		// Obtener información del método ANTES de validar IMEI
+		$method_id = $this->input->post('MethodID');
+		$requires_serial = false;
+		
+		if($method_id) {
+			$method_info = $this->method_model->get_where(array('ID' => $method_id));
+			if(!empty($method_info) && isset($method_info[0]['SerialNumber'])) {
+				$requires_serial = ($method_info[0]['SerialNumber'] == 1);
+			}
+		}
+		
+		// Validación condicional: si requiere Serial, no validar formato IMEI
+		if($requires_serial) {
+			// Si el servicio requiere Serial Number, solo validar que no esté vacío
+			$this->form_validation->set_rules('IMEI' , 'Serial Number' ,'trim|required');
+			// Guardar flag para usar en la validación personalizada
+			$this->session->set_userdata('temp_requires_serial', true);
+			$this->session->set_userdata('temp_method_id', $method_id);
+		} else {
+			// Si requiere IMEI, validar formato correcto
+			$this->form_validation->set_rules('IMEI' , 'IMEI' ,'trim|required|callback_imei_check');
+			$this->session->set_userdata('temp_requires_serial', false);
+		}
+		
+		$this->form_validation->set_rules('Email' , 'Email' ,'trim|required|valid_email');
+		// Note es opcional, no se valida
 		if($this->form_validation->run() === FALSE)	
 		{
+			// Limpiar flags temporales
+			$this->session->unset_userdata('temp_requires_serial');
+			$this->session->unset_userdata('temp_method_id');
 			$this->index();	
 		}
 		else 
 		{
+			// Limpiar flags temporales después de validación exitosa
+			$this->session->unset_userdata('temp_requires_serial');
+			$this->session->unset_userdata('temp_method_id');
+			
 			$data = $this->input->post(NULL, TRUE);
 			$method_id = $data['MethodID'];
 			$member_id = $this->session->userdata('MemberID');
@@ -159,45 +191,97 @@ class imeirequest extends FSD_Controller
 			$price = $pricing[0]['Price'];
 			
 			#### Get IMEI CODES,Count Requests For Orders check Credit
-			$imei_data = explode(PHP_EOL, $data['IMEI']);			
+			$imei_data_raw = explode(PHP_EOL, $data['IMEI']);			
+			
+			// Limpiar y validar IMEIs PRIMERO
+			$imei_data = array();
+			foreach($imei_data_raw as $imei_raw) {
+				$imei_clean = trim($imei_raw);
+				if(!empty($imei_clean)) {
+					$imei_data[] = $imei_clean;
+				}
+			}
+			
+			// Validar que haya al menos un IMEI válido
+			if (empty($imei_data)) {
+				$this->session->set_flashdata('fail', "Por favor ingresa al menos un IMEI válido.");
+				redirect("member/imeirequest/");
+			}
+			
+			// Calcular precio DESPUÉS de filtrar
 			$total_price = count($imei_data) * $price;
 
 			if($total_price > $credit[0]['credit'] )
 			{
-				$this->session->set_flashdata('fail', " You have not enough credit for the request.");
+				$this->session->set_flashdata('fail', "You have not enough credit for the request. Required: $" . number_format($total_price, 2) . ", Available: $" . number_format($credit[0]['credit'], 2));
 				redirect("member/imeirequest/");
 			}
+			
+			// Obtener información del método antes del loop
+			$method_info = $this->method_model->get_where(array('ID' => $method_id));
+			$method_title = !empty($method_info) && isset($method_info[0]['Title']) ? $method_info[0]['Title'] : 'Servicio IMEI';
+			
+			// Log para debugging
+			log_message('info', "Creando órdenes IMEI - Usuario: $member_id, Método: $method_id, IMEIs: " . count($imei_data));
+			
+			$orders_created = array(); // Guardar IDs de órdenes creadas
 			
 			#### Place Order			
 			foreach($imei_data as $key => $val)
 			{
+				$val = trim($val);
+				if(empty($val)) {
+					log_message('debug', "IMEI vacío saltado en posición $key");
+					continue;
+				}
+				
 				$insert = array();
 				$insert['MethodID'] = $method_id;
 				$insert['IMEI'] = $val;
-				$insert['Email'] = $data['Email'];
+				$insert['Email'] = trim($data['Email']);
 
 				$insert['MemberID'] = $member_id;
-				$insert['Maker'] = array_key_exists("Maker", $data)? $data['Maker']: NULL;
-				$insert['Model'] = array_key_exists("Model", $data)? $data['Model']: NULL;				
-				## API Fields ##
-				//$insert['NetworkID'] = array_key_exists("Network", $data)? $data['Network']:NULL;
-				$insert['SerialNumber'] = array_key_exists("SerialNumber", $data)? $data['SerialNumber']: NULL;
-				$insert['ModelID'] = array_key_exists("ModelID", $data)? $data['ModelID']: NULL;				
-				$insert['ProviderID'] = array_key_exists("ProviderID", $data)? $data['ProviderID']: NULL;
-				$insert['MEPID'] = array_key_exists("MEPID", $data)? $data['MEPID']: NULL;
-				$insert['PIN'] = array_key_exists("PIN", $data)? $data['PIN']: NULL;
-				$insert['KBH'] = array_key_exists("KBH", $data)? $data['KBH']: NULL;
-				$insert['PRD'] = array_key_exists("PRD", $data)? $data['PRD']: NULL;
-				$insert['Type'] = array_key_exists("Type", $data)? $data['Type']: NULL;
-				$insert['Locks'] = array_key_exists("Locks", $data)? $data['Locks']: NULL;
-				$insert['Reference'] = array_key_exists("Reference", $data)? $data['Reference']: NULL;
+				$insert['Maker'] = array_key_exists("Maker", $data) && !empty($data['Maker'])? $data['Maker']: NULL;
+				$insert['Model'] = array_key_exists("Model", $data) && !empty($data['Model'])? $data['Model']: NULL;				
+				## API Fields - Todos opcionales ahora ##
+				$insert['SerialNumber'] = array_key_exists("SerialNumber", $data) && !empty($data['SerialNumber'])? $data['SerialNumber']: NULL;
+				$insert['ModelID'] = array_key_exists("ModelID", $data) && !empty($data['ModelID'])? $data['ModelID']: NULL;				
+				$insert['ProviderID'] = array_key_exists("ProviderID", $data) && !empty($data['ProviderID'])? $data['ProviderID']: NULL;
+				$insert['MEPID'] = array_key_exists("MEPID", $data) && !empty($data['MEPID'])? $data['MEPID']: NULL;
+				$insert['PIN'] = array_key_exists("PIN", $data) && !empty($data['PIN'])? $data['PIN']: NULL;
+				$insert['KBH'] = array_key_exists("KBH", $data) && !empty($data['KBH'])? $data['KBH']: NULL;
+				$insert['PRD'] = array_key_exists("PRD", $data) && !empty($data['PRD'])? $data['PRD']: NULL;
+				$insert['Type'] = array_key_exists("Type", $data) && !empty($data['Type'])? $data['Type']: NULL;
+				$insert['Locks'] = array_key_exists("Locks", $data) && !empty($data['Locks'])? $data['Locks']: NULL;
+				$insert['Reference'] = array_key_exists("Reference", $data) && !empty($data['Reference'])? $data['Reference']: NULL;
 				
-				$insert['Note'] = $data['Note'];
+				$insert['Note'] = isset($data['Note']) && !empty($data['Note'])? trim($data['Note']): NULL;
 				$insert['Status'] = 'Pending';
 				$insert['UpdatedDateTime'] = date("Y-m-d H:i:s");				
 				$insert['CreatedDateTime'] = date("Y-m-d H:i:s");		
 				
+				// Log antes de insertar
+				log_message('debug', "Intentando insertar orden IMEI: $val para usuario $member_id");
+				
+				// Insertar orden y verificar que se guardó correctamente
 				$insert_id = $this->imeiorder_model->insert($insert);
+				
+				if (!$insert_id || $insert_id <= 0) {
+					// Log error detallado
+					log_message('error', "❌ FALLO al insertar orden IMEI: $val | Usuario: $member_id | Método: $method_id");
+					// Obtener último error de la BD si es posible
+					if(method_exists($this->db, 'error')) {
+						$error = $this->db->error();
+						if(!empty($error['message'])) {
+							log_message('error', "Error BD: " . $error['message']);
+						}
+					}
+					continue;
+				}
+				
+				// Log éxito
+				log_message('info', "✅ Orden IMEI creada exitosamente - ID: $insert_id, IMEI: $val");
+				$orders_created[] = $insert_id;
 				
 				#####Deduct Credits from available credits
 				$credit_data = array(
@@ -209,8 +293,29 @@ class imeirequest extends FSD_Controller
 					'CreatedDateTime' => date("Y-m-d H:i:s")
 				);
 				$this->credit_model->insert($credit_data);
-			}						
-			$this->session->set_flashdata('success', 'Record added successfully.');
+			}
+			
+			// Verificar que al menos una orden se creó
+			if (empty($orders_created)) {
+				log_message('error', "❌ NO SE CREÓ NINGUNA ORDEN - Usuario: $member_id, IMEIs intentados: " . count($imei_data));
+				$this->session->set_flashdata('fail', "Error al crear las órdenes. Por favor, intenta nuevamente. Revisa los logs para más detalles.");
+				redirect("member/imeirequest/");
+			}
+			
+			// Contar órdenes creadas
+			$orders_count = count($orders_created);
+			$total_amount = $orders_count * $price;
+			
+			// Log final de éxito
+			log_message('info', "🎉 ÓRDENES CREADAS EXITOSAMENTE - Usuario: $member_id, Cantidad: $orders_count, Total: $" . number_format($total_amount, 2) . ", IDs: " . implode(', ', $orders_created));
+			
+			// Guardar datos para el modal de éxito
+			$this->session->set_flashdata('imei_order_success', true);
+			$this->session->set_flashdata('imei_orders_count', $orders_count);
+			$this->session->set_flashdata('imei_total_amount', $total_amount);
+			$this->session->set_flashdata('imei_method_id', $method_id);
+			$this->session->set_flashdata('imei_method_title', $method_title);
+			
 			redirect("member/imeirequest/");
 		}
 	}
@@ -236,19 +341,70 @@ class imeirequest extends FSD_Controller
 		echo $this->imeiorder_model->get_imei_data_select($id, $status);
 	}
 	
+	/**
+	 * Nueva función para obtener lista simple de pedidos (sin DataTables)
+	 */
+	public function get_orders_list()
+	{
+		$id = $this->session->userdata('MemberID');
+		$status = $this->input->post('status');
+		
+		// También aceptar por GET
+		if (!$status && $this->input->get('status')) {
+			$status = $this->input->get('status');
+		}
+		
+		if (!$status) {
+			$status = 'Issued';
+		}
+		
+		// Obtener pedidos directamente del modelo
+		$orders = $this->imeiorder_model->get_imei_history($id, $status);
+		
+		// Formatear respuesta
+		header('Content-Type: application/json');
+		echo json_encode(array(
+			'success' => true,
+			'data' => $orders
+		));
+	}
+	
 	/* IMEI Validation */
 	public function imei_check($str)
 	{
+		// Verificar si el servicio requiere Serial Number en lugar de IMEI
+		$requires_serial = $this->session->userdata('temp_requires_serial');
+		$method_id = $this->session->userdata('temp_method_id');
+		
+		// Si requiere Serial Number, no validar formato IMEI (solo no vacío, ya validado arriba)
+		if($requires_serial) {
+			// Para servicios con Serial, permitir cualquier valor no vacío
+			// La validación de "required" ya se hizo arriba, así que solo retornar TRUE
+			log_message('debug', "Servicio requiere Serial Number - omitiendo validación IMEI. MethodID: $method_id");
+			return TRUE;
+		}
+		
+		// Si requiere IMEI, validar formato correcto
 		$imeis = explode(PHP_EOL, $str);		
 		$imeis = array_unique($imeis);
 		
 		foreach($imeis as $imei)
 		{	
+			$imei = trim($imei); // Limpiar espacios
+			if(empty($imei)) continue; // Saltar líneas vacías
+			
+			// Validar que sea numérico y tenga formato IMEI válido
 			if( is_numeric($imei) && TRUE !== $this->is_imei($imei) ) 
 			{
-				$this->form_validation->set_message('imei_check', 'One or more IMEI(s) are invalid.');
+				$this->form_validation->set_message('imei_check', 'One or more IMEI(s) are invalid. Please enter a valid 15-digit IMEI.');
 				return FALSE;
-			}			
+			}
+			
+			// Si no es numérico, también rechazar (IMEIs deben ser números)
+			if(!is_numeric($imei)) {
+				$this->form_validation->set_message('imei_check', 'IMEI must contain only numbers. If this service requires a Serial Number, please contact support.');
+				return FALSE;
+			}
 		}
 		return TRUE;		
 	}

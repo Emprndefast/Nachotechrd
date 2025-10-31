@@ -1,0 +1,292 @@
+/* 
+ * Temas Profesionales para Panel Admin NachoTechRD
+ * Colores modernos y elegantes con gradientes suaves
+ */
+
+/* ============================================
+   TEMA DEFAULT (NachoTechRD Premium)
+   ============================================ */
+body.theme-default,
+body.theme-default .wrapper {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+    color: #f1f5f9;
+}
+
+body.theme-default .admin-header-enhanced {
+    background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 50%, #0ea5e9 100%);
+    box-shadow: 0 8px 32px rgba(139, 92, 246, 0.4);
+}
+
+body.theme-default .filter-bar {
+    background: linear-gradient(135deg, rgba(241, 245, 249, 0.95), rgba(226, 232, 240, 0.95));
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(203, 213, 225, 0.5);
+}
+
+body.theme-default .table thead th {
+    background: linear-gradient(135deg, #64748b, #475569);
+    color: white;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+body.theme-default .table tbody tr:hover {
+    background: rgba(139, 92, 246, 0.08);
+}
+
+/* ============================================
+   TEMA DARK PRO
+   ============================================ */
+body.theme-dark-pro,
+body.theme-dark-pro .wrapper {
+    background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 50%, #0a0a0f 100%);
+    color: #e2e8f0;
+}
+
+body.theme-dark-pro .admin-header-enhanced {
+    background: linear-gradient(135deg, #1e293b 0%, #334155 50%, #1e293b 100%);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(148, 163, 184, 0.2);
+}
+
+body.theme-dark-pro .filter-bar {
+    background: linear-gradient(135deg, rgba(30, 41, 59, 0.95), rgba(51, 65, 85, 0.95));
+    border: 1px solid rgba(148, 163, 184, 0.3);
+    color: #e2e8f0;
+}
+
+body.theme-dark-pro .table thead th {
+    background: linear-gradient(135deg, #1e293b, #334155);
+    color: #e2e8f0;
+    border-bottom: 2px solid #475569;
+}
+
+body.theme-dark-pro .table tbody tr:hover {
+    background: rgba(71, 85, 105, 0.3);
+}
+
+/* ============================================
+   TEMA OCEAN BLUE
+   ============================================ */
+body.theme-ocean-blue,
+body.theme-ocean-blue .wrapper {
+    background: linear-gradient(135deg, #0c4a6e 0%, #075985 50%, #0c4a6e 100%);
+    color: #e0f2fe;
+}
+
+body.theme-ocean-blue .admin-header-enhanced {
+    background: linear-gradient(135deg, #0284c7 0%, #0369a1 50%, #0284c7 100%);
+    box-shadow: 0 8px 32px rgba(2, 132, 199, 0.5);
+}
+
+body.theme-ocean-blue .filter-bar {
+    background: linear-gradient(135deg, rgba(224, 242, 254, 0.95), rgba(186, 230, 253, 0.95));
+    border: 1px solid rgba(125, 211, 252, 0.5);
+}
+
+body.theme-ocean-blue .table thead th {
+    background: linear-gradient(135deg, #0284c7, #0369a1);
+    color: white;
+}
+
+body.theme-ocean-blue .table tbody tr:hover {
+    background: rgba(2, 132, 199, 0.15);
+}
+
+/* ============================================
+   TEMA PURPLE DREAM
+   ============================================ */
+body.theme-purple-dream,
+body.theme-purple-dream .wrapper {
+    background: linear-gradient(135deg, #581c87 0%, #6b21a8 50%, #581c87 100%);
+    color: #f3e8ff;
+}
+
+body.theme-purple-dream .admin-header-enhanced {
+    background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 50%, #8b5cf6 100%);
+    box-shadow: 0 8px 32px rgba(139, 92, 246, 0.6);
+}
+
+body.theme-purple-dream .filter-bar {
+    background: linear-gradient(135deg, rgba(243, 232, 255, 0.95), rgba(221, 214, 254, 0.95));
+    border: 1px solid rgba(167, 139, 250, 0.5);
+}
+
+body.theme-purple-dream .table thead th {
+    background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+    color: white;
+}
+
+body.theme-purple-dream .table tbody tr:hover {
+    background: rgba(139, 92, 246, 0.2);
+}
+
+/* ============================================
+   TEMA EMERALD GREEN
+   ============================================ */
+body.theme-emerald-green,
+body.theme-emerald-green .wrapper {
+    background: linear-gradient(135deg, #064e3b 0%, #065f46 50%, #064e3b 100%);
+    color: #d1fae5;
+}
+
+body.theme-emerald-green .admin-header-enhanced {
+    background: linear-gradient(135deg, #10b981 0%, #059669 50%, #10b981 100%);
+    box-shadow: 0 8px 32px rgba(16, 185, 129, 0.5);
+}
+
+body.theme-emerald-green .filter-bar {
+    background: linear-gradient(135deg, rgba(209, 250, 229, 0.95), rgba(167, 243, 208, 0.95));
+    border: 1px solid rgba(110, 231, 183, 0.5);
+}
+
+body.theme-emerald-green .table thead th {
+    background: linear-gradient(135deg, #10b981, #059669);
+    color: white;
+}
+
+body.theme-emerald-green .table tbody tr:hover {
+    background: rgba(16, 185, 129, 0.15);
+}
+
+/* ============================================
+   TEMA SUNSET ORANGE
+   ============================================ */
+body.theme-sunset-orange,
+body.theme-sunset-orange .wrapper {
+    background: linear-gradient(135deg, #7c2d12 0%, #9a3412 50%, #7c2d12 100%);
+    color: #fed7aa;
+}
+
+body.theme-sunset-orange .admin-header-enhanced {
+    background: linear-gradient(135deg, #f97316 0%, #ea580c 50%, #f97316 100%);
+    box-shadow: 0 8px 32px rgba(249, 115, 22, 0.5);
+}
+
+body.theme-sunset-orange .filter-bar {
+    background: linear-gradient(135deg, rgba(254, 215, 170, 0.95), rgba(253, 186, 116, 0.95));
+    border: 1px solid rgba(251, 146, 60, 0.5);
+}
+
+body.theme-sunset-orange .table thead th {
+    background: linear-gradient(135deg, #f97316, #ea580c);
+    color: white;
+}
+
+body.theme-sunset-orange .table tbody tr:hover {
+    background: rgba(249, 115, 22, 0.15);
+}
+
+/* ============================================
+   Mejoras Globales para Todos los Temas
+   ============================================ */
+
+/* Iconos mejorados */
+.isb-edit, .isb-delete, .isb-cloud {
+    width: 24px;
+    height: 24px;
+    background-size: 20px 20px !important;
+    background-position: center center !important;
+    display: inline-block;
+    margin: 0 5px;
+    opacity: 0.8;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 4px;
+    padding: 2px;
+}
+
+.isb-edit:hover {
+    background-color: rgba(59, 130, 246, 0.2);
+    opacity: 1;
+    transform: scale(1.15) rotate(5deg);
+}
+
+.isb-delete:hover {
+    background-color: rgba(239, 68, 68, 0.2);
+    opacity: 1;
+    transform: scale(1.15);
+}
+
+.isb-cloud:hover {
+    background-color: rgba(139, 92, 246, 0.2);
+    opacity: 1;
+    transform: scale(1.15);
+}
+
+/* Tooltips mejorados */
+.tip {
+    position: relative;
+}
+
+.tip:hover::after {
+    content: attr(title);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.9);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    white-space: nowrap;
+    z-index: 1000;
+    margin-bottom: 5px;
+    pointer-events: none;
+    animation: fadeInTooltip 0.2s ease;
+}
+
+.tip:hover::before {
+    content: '';
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 5px solid transparent;
+    border-top-color: rgba(0, 0, 0, 0.9);
+    z-index: 1000;
+    margin-bottom: -5px;
+}
+
+@keyframes fadeInTooltip {
+    from { opacity: 0; transform: translateX(-50%) translateY(5px); }
+    to { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+/* Scrollbar personalizado */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, #8b5cf6, #ec4899);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, #7c3aed, #db2777);
+}
+
+/* Transiciones suaves */
+* {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Asegurar que los iconos siempre se vean */
+span.isb-edit,
+span.isb-delete,
+span.isb-cloud,
+i.isb-edit,
+i.isb-delete,
+i.isb-cloud {
+    display: inline-block !important;
+    width: 24px !important;
+    height: 24px !important;
+    vertical-align: middle !important;
+}
+

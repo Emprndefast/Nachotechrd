@@ -7,11 +7,12 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <![endif]-->
     
-    <title>Exclusive Unlock - Admin Panel</title>
+    <title>NACHOTECHRD - Admin Panel</title>
 
     <?php /*<link rel="icon" type="image/ico" href="<?php echo $this->config->item('assets_url');?>img/favicon.ico"/>**/?>
     
-    <link href="<?php echo $this->config->item('assets_url');?>css/stylesheets.css" rel="stylesheet" type="text/css" />  
+    <link href="<?php echo $this->config->item('assets_url');?>css/stylesheets.css" rel="stylesheet" type="text/css" />
+    <link href="<?php echo base_url();?>application/views/admin/themes_pro.css" rel="stylesheet" type="text/css" />  
     <!--[if lt IE 8]>
         <link href="<?php echo $this->config->item('assets_url');?>css/ie7.css" rel="stylesheet" type="text/css" />
     <![endif]-->            
@@ -107,14 +108,14 @@
                             <div class="row-fluid">
                                 <div class="span3"><strong>Style:</strong></div>
                                 <div class="span9">
-                                    <a class="styleExample tip active" title="Default style" data-style="">&nbsp;</a>                                    
+                                    <a class="styleExample tip active" title="NachoTechRD Premium" data-style="" data-theme="default">&nbsp;</a>
+                                    <a class="styleExample dark-pro tip" title="Dark Pro" data-style="dark-pro" data-theme="dark-pro" style="background: linear-gradient(135deg, #1e293b, #334155);">&nbsp;</a>
+                                    <a class="styleExample ocean-blue tip" title="Ocean Blue" data-style="ocean-blue" data-theme="ocean-blue" style="background: linear-gradient(135deg, #0284c7, #0369a1);">&nbsp;</a>
+                                    <a class="styleExample purple-dream tip" title="Purple Dream" data-style="purple-dream" data-theme="purple-dream" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);">&nbsp;</a>
+                                    <a class="styleExample emerald-green tip" title="Emerald Green" data-style="emerald-green" data-theme="emerald-green" style="background: linear-gradient(135deg, #10b981, #059669);">&nbsp;</a>
+                                    <a class="styleExample sunset-orange tip" title="Sunset Orange" data-style="sunset-orange" data-theme="sunset-orange" style="background: linear-gradient(135deg, #f97316, #ea580c);">&nbsp;</a>
                                     <a class="styleExample silver tip" title="Silver style" data-style="silver">&nbsp;</a>
-                                    <a class="styleExample dark tip" title="Dark style" data-style="dark">&nbsp;</a>
-                                    <a class="styleExample marble tip" title="Marble style" data-style="marble">&nbsp;</a>
-                                    <a class="styleExample red tip" title="Red style" data-style="red">&nbsp;</a>                                    
-                                    <a class="styleExample green tip" title="Green style" data-style="green">&nbsp;</a>
-                                    <a class="styleExample lime tip" title="Lime style" data-style="lime">&nbsp;</a>
-                                    <a class="styleExample purple tip" title="Purple style" data-style="purple">&nbsp;</a>                                    
+                                    <a class="styleExample dark tip" title="Dark style" data-style="dark">&nbsp;</a>                                    
                                 </div>
                             </div>                            
                             <div class="row-fluid">

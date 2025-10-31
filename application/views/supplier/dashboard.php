@@ -63,7 +63,7 @@
                             <div class="dSpace">
                                 <h3>Last visits</h3>
                                 <span class="mChartBar" sparkType="bar" sparkBarColor="white"><!--240,234,150,290,310,240,210,400,320,198,250,222,111,240,221,340,250,190--></span>
-                                <span class="number">6,302</span>
+                                <span class="number">6,302</span>                    
                             </div>
                             <div class="rSpace">                                                                           
                                 <span>65% <b>New</b></span>
@@ -81,28 +81,42 @@
                     <div class="span12">                    
                         <div class="head clearfix">
                             <div class="isw-grid"></div>
-                            <h1>Network Rates</h1>      
+                            <h1>Productos/Servicios Asignados</h1>      
                                            
                         </div>
                         <div class="block-fluid">
+                            <?php if(!empty($networks)): ?>
                             <table cellpadding="0" cellspacing="0" width="100%" class="table">
                                 <thead>
                                     <tr>                                    
-                                        <th width="25%">Network Name</th>
-                                        <th width="25%">Price</th> 
+                                        <th width="30%">Nombre del Servicio</th>
+                                        <th width="15%">Precio</th>
+                                        <th width="20%">Tiempo de Entrega</th>
+                                        <th width="15%">Estado</th>
+                                        <th width="20%">Descripción</th> 
                                     </tr>
                                 </thead>
                                 <tbody>
-                                	
+                                	<?php foreach($networks as $network): ?>
                                     <tr>                                    
-                                        <td>101</td>
-                                        <td>Dmitry</td>
-                                        <td>dmitry@domain.com</td>
-                                        <td>+98(765)432-10-98</td>                                    
+                                        <td><?php echo htmlspecialchars($network['Title']); ?></td>
+                                        <td>$<?php echo number_format($network['Price'], 2); ?></td>
+                                        <td><?php echo htmlspecialchars($network['DeliveryTime']); ?></td>
+                                        <td>
+                                        	<span class="label label-<?php echo $network['Status'] == 'Enabled' ? 'success' : 'danger'; ?>">
+                                        		<?php echo $network['Status'] == 'Enabled' ? 'Activo' : 'Inactivo'; ?>
+                                        	</span>
+                                        </td>
+                                        <td><?php echo htmlspecialchars(substr($network['Description'], 0, 50)); ?><?php echo strlen($network['Description']) > 50 ? '...' : ''; ?></td>                                    
                                     </tr>
-                                    
+                                    <?php endforeach; ?>
                                 </tbody>
                             </table>
+                            <?php else: ?>
+                            <div class="alert alert-info">
+                            	<strong>No hay productos asignados.</strong> Contacta al administrador para que te asignen servicios.
+                            </div>
+                            <?php endif; ?>
                         </div>
                     </div>                                
 

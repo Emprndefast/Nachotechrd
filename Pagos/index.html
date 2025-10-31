@@ -1,0 +1,1121 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="NachoTechRD - Servicios GSM premium, desbloqueos y herramientas profesionales con múltiples métodos de pago">
+    <meta name="keywords" content="GSM, desbloqueos, iCloud, IMEI, herramientas, República Dominicana">
+    <title>NachoTechRD Premium - Métodos de Pago Inteligentes</title>
+    
+    <!-- Preconnect para optimización -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+    
+    <!-- Estilos -->
+    <link rel="stylesheet" href="styles_premium.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="../img/favicon.ico">
+</head>
+<body>
+    <!-- Loader de página -->
+    <div id="pageLoader" class="page-loader">
+        <div class="loader-content">
+            <div class="loader-logo">
+                <i class="fas fa-bolt"></i>
+            </div>
+            <div class="loader-text">Cargando NachoTechRD...</div>
+            <div class="loader-bar">
+                <div class="loader-progress"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toggle de modo oscuro/claro -->
+    <button class="theme-toggle" id="themeToggle" aria-label="Cambiar tema">
+        <i class="fas fa-moon"></i>
+        <i class="fas fa-sun"></i>
+    </button>
+
+    <!-- Banner superior de anuncios -->
+    <div class="top-announcement-bar">
+        <div class="announcement-content">
+            <i class="fas fa-megaphone"></i>
+            <span class="announcement-text">🎉 Promoción Especial: 10% de descuento en tu primera recarga con código NTRD2025</span>
+        </div>
+    </div>
+
+    <!-- Header con navegación -->
+    <header class="main-header">
+        <div class="header-container">
+            <div class="logo-section">
+                <div class="logo">
+                    <i class="fas fa-bolt"></i>
+                    <span>NachoTech<span class="logo-highlight">RD</span></span>
+                </div>
+                <div class="logo-tagline">Tu Aliado Digital Premium</div>
+            </div>
+            
+            <nav class="main-nav">
+                <a href="#inicio" class="nav-link active">
+                    <i class="fas fa-home"></i>
+                    <span>Inicio</span>
+                </a>
+                <a href="#metodos" class="nav-link">
+                    <i class="fas fa-credit-card"></i>
+                    <span>Métodos de Pago</span>
+                </a>
+                <a href="#servicios" class="nav-link">
+                    <i class="fas fa-tools"></i>
+                    <span>Servicios</span>
+                </a>
+                <a href="#contacto" class="nav-link">
+                    <i class="fas fa-headset"></i>
+                    <span>Soporte 24/7</span>
+                </a>
+            </nav>
+            
+            <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Banners rotativos mejorados -->
+    <div class="hero-banner-section">
+        <div class="hero-banner active" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+            <div class="hero-content">
+                <div class="hero-icon"><i class="fas fa-star"></i></div>
+                <h2 class="hero-title">Precios Competitivos</h2>
+                <p class="hero-subtitle">Servicio Premium 24/7 • Los mejores precios del mercado</p>
+            </div>
+        </div>
+        <div class="hero-banner" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+            <div class="hero-content">
+                <div class="hero-icon"><i class="fab fa-telegram"></i></div>
+                <h2 class="hero-title">Soporte Instantáneo</h2>
+                <p class="hero-subtitle">Telegram • WhatsApp • Email • Chat en vivo</p>
+            </div>
+        </div>
+        <div class="hero-banner" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+            <div class="hero-content">
+                <div class="hero-icon"><i class="fas fa-bolt"></i></div>
+                <h2 class="hero-title">Recargas Instantáneas</h2>
+                <p class="hero-subtitle">Múltiples métodos • Procesamiento automático</p>
+            </div>
+        </div>
+        
+        <!-- Controles del banner -->
+        <div class="hero-controls">
+            <button class="hero-control prev" onclick="changeHeroBanner(-1)">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <div class="hero-indicators">
+                <span class="indicator active" onclick="setHeroBanner(0)"></span>
+                <span class="indicator" onclick="setHeroBanner(1)"></span>
+                <span class="indicator" onclick="setHeroBanner(2)"></span>
+            </div>
+            <button class="hero-control next" onclick="changeHeroBanner(1)">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Container principal -->
+    <div class="main-container">
+        <!-- Stats Section -->
+        <section class="stats-section">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-number" data-target="5000">0</div>
+                        <div class="stat-label">Clientes Activos</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-number" data-target="15000">0</div>
+                        <div class="stat-label">Servicios Completados</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-number" data-target="24">0</div>
+                        <div class="stat-label">Soporte 24/7</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-number" data-target="4.9">0</div>
+                        <div class="stat-label">Calificación Promedio</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Carrusel de servicios mejorado -->
+        <section class="services-carousel-section" id="servicios">
+            <div class="section-header">
+                <h2 class="section-title">Nuestros Servicios Premium</h2>
+                <p class="section-subtitle">Herramientas y servicios profesionales de primera calidad</p>
+            </div>
+            
+            <div class="services-carousel">
+                <div class="service-card" data-tilt>
+                    <div class="service-image">
+                        <img src="A12HFZ.png" alt="HFZ Activator" loading="lazy">
+                        <div class="service-badge">Popular</div>
+                    </div>
+                    <div class="service-info">
+                        <h3>HFZ Activator</h3>
+                        <p>Activación profesional y herramientas avanzadas</p>
+                        <div class="service-tags">
+                            <span class="tag">Premium</span>
+                            <span class="tag">24/7</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="service-card" data-tilt>
+                    <div class="service-image">
+                        <img src="A12iRemovalPRO.png" alt="iRemoval PRO" loading="lazy">
+                        <div class="service-badge new">Nuevo</div>
+                    </div>
+                    <div class="service-info">
+                        <h3>iRemoval PRO</h3>
+                        <p>Soluciones profesionales para dispositivos iOS</p>
+                        <div class="service-tags">
+                            <span class="tag">iOS</span>
+                            <span class="tag">Garantía</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="service-card" data-tilt>
+                    <div class="service-image">
+                        <img src="A12iRemoveTools.png" alt="iRemove Tools" loading="lazy">
+                    </div>
+                    <div class="service-info">
+                        <h3>iRemove Tools</h3>
+                        <p>Conjunto completo de herramientas de desbloqueo</p>
+                        <div class="service-tags">
+                            <span class="tag">Completo</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="service-card" data-tilt>
+                    <div class="service-image">
+                        <img src="A12Minacriss.png" alt="Minacriss" loading="lazy">
+                    </div>
+                    <div class="service-info">
+                        <h3>Minacriss</h3>
+                        <p>Herramienta avanzada de reparación</p>
+                        <div class="service-tags">
+                            <span class="tag">Avanzado</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="service-card" data-tilt>
+                    <div class="service-image">
+                        <img src="A12Otix.png" alt="OTIX Activator" loading="lazy">
+                    </div>
+                    <div class="service-info">
+                        <h3>OTIX Activator</h3>
+                        <p>Activación rápida y eficiente</p>
+                        <div class="service-tags">
+                            <span class="tag">Rápido</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="service-card" data-tilt>
+                    <div class="service-image">
+                        <img src="A12Signal.png" alt="Signal Bypass" loading="lazy">
+                    </div>
+                    <div class="service-info">
+                        <h3>Signal Bypass</h3>
+                        <p>Bypass profesional de señal</p>
+                        <div class="service-tags">
+                            <span class="tag">Pro</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="service-card" data-tilt>
+                    <div class="service-image">
+                        <img src="A12SMD.png" alt="SMD Activator" loading="lazy">
+                    </div>
+                    <div class="service-info">
+                        <h3>SMD Activator</h3>
+                        <p>Activador SMD de última generación</p>
+                        <div class="service-tags">
+                            <span class="tag">Nuevo</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="service-card" data-tilt>
+                    <div class="service-image">
+                        <img src="BypassWifi.png" alt="Bypass WiFi" loading="lazy">
+                        <div class="service-badge">Hot</div>
+                    </div>
+                    <div class="service-info">
+                        <h3>Bypass WiFi</h3>
+                        <p>Bypass de WiFi profesional y seguro</p>
+                        <div class="service-tags">
+                            <span class="tag">Seguro</span>
+                            <span class="tag">Rápido</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="carousel-nav">
+                <button class="carousel-btn prev" onclick="scrollServicesCarousel(-1)">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button class="carousel-btn next" onclick="scrollServicesCarousel(1)">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- Sección de métodos de pago mejorada -->
+        <section class="payment-methods-section" id="metodos">
+            <div class="section-header">
+                <h2 class="section-title">Métodos de Pago Disponibles</h2>
+                <p class="section-subtitle">Paga de la forma más conveniente para ti</p>
+                
+                <!-- Barra de búsqueda de métodos -->
+                <div class="payment-search">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="paymentSearch" placeholder="Buscar método de pago..." autocomplete="off">
+                    <button class="search-clear" id="searchClear" style="display: none;">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Filtros rápidos -->
+            <div class="payment-filters">
+                <button class="filter-btn active" data-filter="all">
+                    <i class="fas fa-globe"></i>
+                    <span>Todos</span>
+                </button>
+                <button class="filter-btn" data-filter="crypto">
+                    <i class="fab fa-bitcoin"></i>
+                    <span>Criptomonedas</span>
+                </button>
+                <button class="filter-btn" data-filter="local">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Locales</span>
+                </button>
+                <button class="filter-btn" data-filter="international">
+                    <i class="fas fa-globe-americas"></i>
+                    <span>Internacionales</span>
+                </button>
+                <button class="filter-btn" data-filter="favorites">
+                    <i class="fas fa-heart"></i>
+                    <span>Favoritos</span>
+                </button>
+            </div>
+
+            <!-- Grid de métodos de pago -->
+            <div class="payment-grid" id="paymentGrid">
+                <!-- Grupo: República Dominicana -->
+                <div class="payment-group" data-category="local">
+                    <div class="payment-group-header" onclick="togglePaymentGroup(this)">
+                        <div class="group-icon">
+                            <i class="fas fa-flag"></i>
+                        </div>
+                        <div class="group-info">
+                            <h3 class="group-title">República Dominicana</h3>
+                            <p class="group-subtitle">5 métodos disponibles • Procesamiento rápido</p>
+                        </div>
+                        <div class="group-toggle">
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="payment-group-content">
+                        <div class="payment-method-card" data-method="bancopopular" onclick="openPaymentModal('bancopopular')">
+                            <div class="method-favorite" onclick="toggleFavorite(event, 'bancopopular')">
+                                <i class="far fa-heart"></i>
+                            </div>
+                            <div class="method-icon bank">
+                                <i class="fas fa-university"></i>
+                            </div>
+                            <div class="method-info">
+                                <h4>Banco Popular</h4>
+                                <p>Transferencia bancaria RD</p>
+                                <div class="method-badge">Instantáneo</div>
+                            </div>
+                        </div>
+                        
+                        <div class="payment-method-card" data-method="banreservas" onclick="openPaymentModal('banreservas')">
+                            <div class="method-favorite" onclick="toggleFavorite(event, 'banreservas')">
+                                <i class="far fa-heart"></i>
+                            </div>
+                            <div class="method-icon bank">
+                                <img src="../assets/img/banreservas.jpg" alt="BanReservas">
+                            </div>
+                            <div class="method-info">
+                                <h4>BanReservas</h4>
+                                <p>Transferencia bancaria RD</p>
+                                <div class="method-badge">Instantáneo</div>
+                            </div>
+                        </div>
+                        
+                        <div class="payment-method-card" data-method="bhd" onclick="openPaymentModal('bhd')">
+                            <div class="method-favorite" onclick="toggleFavorite(event, 'bhd')">
+                                <i class="far fa-heart"></i>
+                            </div>
+                            <div class="method-icon bank">
+                                <img src="../assets/img/bhd.png" alt="BHD León">
+                            </div>
+                            <div class="method-info">
+                                <h4>BHD</h4>
+                                <p>Banco BHD León</p>
+                                <div class="method-badge">Rápido</div>
+                            </div>
+                        </div>
+                        
+                        <div class="payment-method-card" data-method="mioreserva" onclick="openPaymentModal('mioreserva')">
+                            <div class="method-favorite" onclick="toggleFavorite(event, 'mioreserva')">
+                                <i class="far fa-heart"></i>
+                            </div>
+                            <div class="method-icon bank">
+                                <img src="../assets/img/mio.png" alt="MiO">
+                            </div>
+                            <div class="method-info">
+                                <h4>MiO - Reserva</h4>
+                                <p>Pago móvil RD</p>
+                                <div class="method-badge popular">Popular</div>
+                            </div>
+                        </div>
+                        
+                        <div class="payment-method-card" data-method="qik" onclick="openPaymentModal('qik')">
+                            <div class="method-favorite" onclick="toggleFavorite(event, 'qik')">
+                                <i class="far fa-heart"></i>
+                            </div>
+                            <div class="method-icon bank">
+                                <img src="../assets/img/QIKBanco-logo.png" alt="Qik">
+                            </div>
+                            <div class="method-info">
+                                <h4>Qik</h4>
+                                <p>Pago rápido RD</p>
+                                <div class="method-badge">Nuevo</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Grupo: Criptomonedas -->
+                <div class="payment-group" data-category="crypto">
+                    <div class="payment-group-header" onclick="togglePaymentGroup(this)">
+                        <div class="group-icon crypto">
+                            <i class="fab fa-bitcoin"></i>
+                        </div>
+                        <div class="group-info">
+                            <h3 class="group-title">Criptomonedas</h3>
+                            <p class="group-subtitle">3 redes USDT • Sin límites</p>
+                        </div>
+                        <div class="group-toggle">
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="payment-group-content">
+                        <div class="crypto-info-banner">
+                            <i class="fas fa-info-circle"></i>
+                            <span>💰 USDT (Tether) - Elige la red que prefieras</span>
+                        </div>
+                        
+                        <div class="payment-method-card recommended" data-method="usdt" onclick="openPaymentModal('usdt')">
+                            <div class="method-favorite" onclick="toggleFavorite(event, 'usdt')">
+                                <i class="far fa-heart"></i>
+                            </div>
+                            <div class="method-icon crypto">
+                                <img src="../assets/img/trxbinance.jpg" alt="USDT TRC20">
+                            </div>
+                            <div class="method-info">
+                                <h4>USDT TRC20</h4>
+                                <p>Tron Network</p>
+                                <div class="method-badges">
+                                    <span class="method-badge">Más Barato</span>
+                                    <span class="method-badge recommended-badge">Recomendado</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="payment-method-card" data-method="usdterc20" onclick="openPaymentModal('usdterc20')">
+                            <div class="method-favorite" onclick="toggleFavorite(event, 'usdterc20')">
+                                <i class="far fa-heart"></i>
+                            </div>
+                            <div class="method-icon crypto">
+                                <img src="../assets/img/ethbinance.jpg" alt="USDT ERC20">
+                            </div>
+                            <div class="method-info">
+                                <h4>USDT ERC20</h4>
+                                <p>Ethereum Network</p>
+                                <div class="method-badge secure">Más Seguro</div>
+                            </div>
+                        </div>
+                        
+                        <div class="payment-method-card" data-method="usdtbep20" onclick="openPaymentModal('usdtbep20')">
+                            <div class="method-favorite" onclick="toggleFavorite(event, 'usdtbep20')">
+                                <i class="far fa-heart"></i>
+                            </div>
+                            <div class="method-icon crypto">
+                                <img src="../assets/img/bnbbinace.jpg" alt="USDT BEP20">
+                            </div>
+                            <div class="method-info">
+                                <h4>USDT BEP20</h4>
+                                <p>BNB Chain</p>
+                                <div class="method-badge">Equilibrado</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Grupo: Otros Métodos -->
+                <div class="payment-group" data-category="international">
+                    <div class="payment-group-header" onclick="togglePaymentGroup(this)">
+                        <div class="group-icon">
+                            <i class="fas fa-globe-americas"></i>
+                        </div>
+                        <div class="group-info">
+                            <h3 class="group-title">Otros Métodos</h3>
+                            <p class="group-subtitle">Opciones internacionales</p>
+                        </div>
+                        <div class="group-toggle">
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="payment-group-content">
+                        <div class="payment-method-card" data-method="lemoncash" onclick="openPaymentModal('lemoncash')">
+                            <div class="method-favorite" onclick="toggleFavorite(event, 'lemoncash')">
+                                <i class="far fa-heart"></i>
+                            </div>
+                            <div class="method-icon bank">
+                                <i class="fas fa-lemon"></i>
+                            </div>
+                            <div class="method-info">
+                                <h4>Lemon Cash</h4>
+                                <p>USDT Latinoamérica</p>
+                                <div class="method-badge">LATAM</div>
+                            </div>
+                        </div>
+                        
+                        <div class="payment-method-card" data-method="binance" onclick="openPaymentModal('binance')">
+                            <div class="method-favorite" onclick="toggleFavorite(event, 'binance')">
+                                <i class="far fa-heart"></i>
+                            </div>
+                            <div class="method-icon crypto">
+                                <img src="../assets/img/binancelogo.webp" alt="Binance Pay">
+                            </div>
+                            <div class="method-info">
+                                <h4>Binance Pay</h4>
+                                <p>Pago con Binance</p>
+                                <div class="method-badge">Global</div>
+                            </div>
+                        </div>
+                        
+                        <div class="payment-method-card" data-method="paypalcustom" onclick="openPaymentModal('paypalcustom')">
+                            <div class="method-favorite" onclick="toggleFavorite(event, 'paypalcustom')">
+                                <i class="far fa-heart"></i>
+                            </div>
+                            <div class="method-icon bank">
+                                <img src="../assets/img/paypal-logo-icon-png_44635.jpg" alt="PayPal">
+                            </div>
+                            <div class="method-info">
+                                <h4>PayPal</h4>
+                                <p>Pago internacional</p>
+                                <div class="method-badge">Mundial</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Grupo: Transferencias Internacionales -->
+                <div class="payment-group" data-category="international">
+                    <div class="payment-group-header" onclick="togglePaymentGroup(this)">
+                        <div class="group-icon">
+                            <i class="fas fa-exchange-alt"></i>
+                        </div>
+                        <div class="group-info">
+                            <h3 class="group-title">Transferencias Internacionales</h3>
+                            <p class="group-subtitle">3 cuentas virtuales • Cobertura global</p>
+                        </div>
+                        <div class="group-toggle">
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="payment-group-content">
+                        <div class="payment-method-card recommended" data-method="usabank" onclick="openPaymentModal('usabank')">
+                            <div class="method-favorite" onclick="toggleFavorite(event, 'usabank')">
+                                <i class="far fa-heart"></i>
+                            </div>
+                            <div class="method-icon bank method-with-flag">
+                                <img src="../assets/img/cuentausa.jpg" alt="USA Bank">
+                                <div class="method-flag-badge usa">🇺🇸</div>
+                            </div>
+                            <div class="method-info">
+                                <h4>Lead Bank (USA)</h4>
+                                <p>ACH Transfer • Cuenta Virtual</p>
+                                <div class="method-badges">
+                                    <span class="method-badge">1-3 días</span>
+                                    <span class="method-badge recommended-badge">USA</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="payment-method-card recommended" data-method="europebank" onclick="openPaymentModal('europebank')">
+                            <div class="method-favorite" onclick="toggleFavorite(event, 'europebank')">
+                                <i class="far fa-heart"></i>
+                            </div>
+                            <div class="method-icon bank method-with-flag">
+                                <img src="../assets/img/cuentaue.jpg" alt="Europa Bank">
+                                <div class="method-flag-badge europe">🇪🇺</div>
+                            </div>
+                            <div class="method-info">
+                                <h4>Modulr Finance (Europa)</h4>
+                                <p>SEPA Transfer • IBAN</p>
+                                <div class="method-badges">
+                                    <span class="method-badge">1 día</span>
+                                    <span class="method-badge">Gratis</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="payment-method-card" data-method="mexico" onclick="openPaymentModal('mexico')">
+                            <div class="method-favorite" onclick="toggleFavorite(event, 'mexico')">
+                                <i class="far fa-heart"></i>
+                            </div>
+                            <div class="method-icon bank method-with-flag">
+                                <img src="../assets/img/cuentamx.jpg" alt="México Bank">
+                                <div class="method-flag-badge mexico">🇲🇽</div>
+                            </div>
+                            <div class="method-info">
+                                <h4>STP México</h4>
+                                <p>Transferencia SPEI</p>
+                                <div class="method-badges">
+                                    <span class="method-badge">1 día</span>
+                                    <span class="method-badge">Gratis</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Botones de acción -->
+            <div class="payment-actions">
+                <button class="action-btn primary" onclick="showRechargeInfo()">
+                    <i class="fas fa-info-circle"></i>
+                    <span>¿Cómo recargar?</span>
+                </button>
+                <button class="action-btn secondary" onclick="showHistoryModal()">
+                    <i class="fas fa-history"></i>
+                    <span>Ver historial</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Sección de testimonios -->
+        <section class="testimonials-section">
+            <div class="section-header">
+                <h2 class="section-title">Lo que dicen nuestros clientes</h2>
+                <p class="section-subtitle">Miles de clientes satisfechos confían en nosotros</p>
+            </div>
+            
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <div class="testimonial-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="testimonial-author">
+                            <h4>Carlos M.</h4>
+                            <div class="testimonial-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="testimonial-text">"Excelente servicio, rápido y confiable. Los recomiendo 100%"</p>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <div class="testimonial-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="testimonial-author">
+                            <h4>María G.</h4>
+                            <div class="testimonial-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="testimonial-text">"Profesionales y atentos. La mejor opción para servicios GSM"</p>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <div class="testimonial-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="testimonial-author">
+                            <h4>José R.</h4>
+                            <div class="testimonial-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="testimonial-text">"Soporte 24/7 real. Siempre responden rápido y resuelven"</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Modal de pago mejorado -->
+    <div id="paymentModal" class="modal-overlay">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h2 id="modalTitle" class="modal-title">Método de Pago</h2>
+                <button class="modal-close" onclick="closePaymentModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="modal-body">
+                <div id="modalInfo" class="payment-details"></div>
+                
+                <!-- Calculadora mejorada -->
+                <div class="modal-calculator" id="modalCalculator" style="display: none;">
+                    <div class="calculator-header">
+                        <i class="fas fa-calculator"></i>
+                        <h3>Calculadora de Pago</h3>
+                    </div>
+                    
+                    <div class="calculator-body">
+                        <div class="calc-input-group">
+                            <label>Monto que deseas en el servidor:</label>
+                            <div class="calc-input-wrapper">
+                                <input type="number" id="modalReceiveAmount" placeholder="10" min="0" step="0.01">
+                                <span class="currency-label">USD</span>
+                            </div>
+                        </div>
+                        
+                        <div class="calc-results">
+                            <div class="calc-result primary">
+                                <span class="calc-label">💰 Monto a Enviar:</span>
+                                <span class="calc-value" id="modalSendAmount">0.00 USD</span>
+                            </div>
+                            <div class="calc-result conversion" id="modalConversion" style="display: none;">
+                                <span class="calc-label">Equivalente Local:</span>
+                                <span class="calc-value" id="modalLocalAmount">0.00</span>
+                            </div>
+                        </div>
+                        
+                        <div class="calc-note">
+                            <i class="fas fa-info-circle"></i>
+                            <span id="modalCalcNote">Calculadora: conversión directa</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Formulario -->
+                <form id="paymentForm" class="payment-form" onsubmit="handlePayment(event)">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="userName">
+                                <i class="fas fa-user"></i>
+                                <span>Nombre Completo</span>
+                            </label>
+                            <input type="text" id="userName" required placeholder="Tu nombre completo">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group usdt-specific" style="display: none;">
+                            <label for="serverEmail">
+                                <i class="fas fa-envelope"></i>
+                                <span>Email del Servidor</span>
+                            </label>
+                            <input type="email" id="serverEmail" placeholder="correo@ejemplo.com">
+                            <small class="field-note">El correo con el que accedes al servidor</small>
+                        </div>
+                        
+                        <div class="form-group local-payment-specific" style="display: none;">
+                            <label for="serverEmailLocal">
+                                <i class="fas fa-envelope"></i>
+                                <span>Email del Servidor</span>
+                            </label>
+                            <input type="email" id="serverEmailLocal" placeholder="correo@ejemplo.com">
+                            <small class="field-note">El correo con el que accedes al servidor</small>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="userEmail">
+                                <i class="fas fa-at"></i>
+                                <span>Correo de Contacto</span>
+                            </label>
+                            <input type="email" id="userEmail" required placeholder="tu@correo.com">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row two-cols">
+                        <div class="form-group">
+                            <label for="amount">
+                                <i class="fas fa-dollar-sign"></i>
+                                <span class="usdt-specific" style="display: none;">Monto (USD)</span>
+                                <span class="general-amount">Monto a Pagar</span>
+                            </label>
+                            <input type="number" id="amount" step="0.01" required placeholder="10.00">
+                            <small class="field-note usdt-specific" style="display: none;">
+                                Mínimo 10 USD - Este es el monto que se acreditará
+                            </small>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="transactionRef">
+                                <i class="fas fa-hashtag"></i>
+                                <span class="usdt-specific" style="display: none;">ID Transacción USDT</span>
+                                <span class="general-ref">Referencia / Nº Operación</span>
+                            </label>
+                            <input type="text" id="transactionRef" required placeholder="ABC123456">
+                            <small class="field-note usdt-specific" style="display: none;" id="transactionNote">
+                                Hash de la transacción de USDT
+                            </small>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="additionalInfo">
+                                <i class="fas fa-comment"></i>
+                                <span>Información Adicional (Opcional)</span>
+                            </label>
+                            <textarea id="additionalInfo" rows="3" placeholder="Cualquier información adicional..."></textarea>
+                        </div>
+                    </div>
+                    
+                    <!-- Warnings -->
+                    <div class="usdt-warning method-warning" style="display: none;">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <div class="warning-content">
+                            <strong>⚠️ IMPORTANTE - USDT:</strong>
+                            <ul>
+                                <li>La comisión la paga quien envía</li>
+                                <li>Lo que llega es lo que se acredita</li>
+                                <li>Red: <span id="networkWarning">USDT</span> únicamente</li>
+                                <li>Monto mínimo: 10 USD</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="dominicana-warning method-warning" style="display: none;">
+                        <i class="fas fa-info-circle"></i>
+                        <div class="warning-content">
+                            <strong>🇩🇴 REPÚBLICA DOMINICANA:</strong>
+                            <ul>
+                                <li>1 crédito = 68 pesos dominicanos</li>
+                                <li>Monto mínimo: 680 pesos (10 USD)</li>
+                                <li>Solo transferencias banco a banco</li>
+                                <li>Bancos terceros = pérdida sin reembolso</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="submit-button">
+                        <i class="fas fa-paper-plane"></i>
+                        <span>Enviar Solicitud de Pago</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de instrucciones -->
+    <div id="infoModal" class="modal-overlay">
+        <div class="modal-container small">
+            <div class="modal-header">
+                <h2 class="modal-title">¿Cómo Recargar?</h2>
+                <button class="modal-close" onclick="closeInfoModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="modal-body">
+                <div class="instructions-steps">
+                    <div class="instruction-step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>Selecciona tu método de pago</h4>
+                            <p>Elige el método que más te convenga</p>
+                        </div>
+                    </div>
+                    
+                    <div class="instruction-step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4>Revisa los datos bancarios</h4>
+                            <p>Verifica la información antes de transferir</p>
+                        </div>
+                    </div>
+                    
+                    <div class="instruction-step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h4>Realiza la transferencia</h4>
+                            <p>Completa el pago desde tu banco o wallet</p>
+                        </div>
+                    </div>
+                    
+                    <div class="instruction-step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h4>Completa el formulario</h4>
+                            <p>Ingresa tus datos y la referencia</p>
+                        </div>
+                    </div>
+                    
+                    <div class="instruction-step">
+                        <div class="step-number">5</div>
+                        <div class="step-content">
+                            <h4>¡Listo!</h4>
+                            <p>Recibirás confirmación en minutos</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer mejorado -->
+    <footer class="main-footer" id="contacto">
+        <div class="footer-content">
+            <div class="footer-grid">
+                <div class="footer-col brand">
+                    <div class="footer-logo">
+                        <i class="fas fa-bolt"></i>
+                        <span>NachoTech<span class="highlight">RD</span></span>
+                    </div>
+                    <p class="footer-description">
+                        Tu socio confiable en servicios GSM profesionales. 
+                        Calidad, rapidez y soporte 24/7.
+                    </p>
+                    <div class="social-links">
+                        <a href="https://wa.me/18093408435" class="social-link whatsapp" target="_blank" rel="noopener">
+                            <i class="fab fa-whatsapp"></i>
+                        </a>
+                        <a href="https://t.me/nachotechrd" class="social-link telegram" target="_blank" rel="noopener">
+                            <i class="fab fa-telegram"></i>
+                        </a>
+                        <a href="mailto:ntdesweb2.0@gmail.com" class="social-link email">
+                            <i class="fas fa-envelope"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="footer-col">
+                    <h3 class="footer-title">Métodos Destacados</h3>
+                    <ul class="footer-list">
+                        <li><i class="fas fa-check"></i> Banco Popular (RD)</li>
+                        <li><i class="fas fa-check"></i> BanReservas (RD)</li>
+                        <li><i class="fas fa-check"></i> USDT TRC20</li>
+                        <li><i class="fas fa-check"></i> Binance Pay</li>
+                        <li><i class="fas fa-check"></i> PayPal</li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h3 class="footer-title">Servicios</h3>
+                    <ul class="footer-list">
+                        <li><i class="fas fa-arrow-right"></i> Desbloqueo iCloud</li>
+                        <li><i class="fas fa-arrow-right"></i> IMEI Services</li>
+                        <li><i class="fas fa-arrow-right"></i> Activaciones</li>
+                        <li><i class="fas fa-arrow-right"></i> Tools Premium</li>
+                        <li><i class="fas fa-arrow-right"></i> Soporte 24/7</li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h3 class="footer-title">Contacto</h3>
+                    <ul class="footer-contact">
+                        <li>
+                            <i class="fas fa-phone"></i>
+                            <a href="tel:+18093408435">+1 (809) 340-8435</a>
+                        </li>
+                        <li>
+                            <i class="fas fa-envelope"></i>
+                            <a href="mailto:ntdesweb2.0@gmail.com">ntdesweb2.0@gmail.com</a>
+                        </li>
+                        <li>
+                            <i class="fab fa-telegram"></i>
+                            <a href="https://t.me/nachotechrd" target="_blank">@nachotechrd</a>
+                        </li>
+                        <li>
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>República Dominicana</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <div class="footer-bottom-content">
+                <p class="copyright">
+                    &copy; 2025 NachoTechRD. Todos los derechos reservados.
+                </p>
+                <div class="payment-badges">
+                    <i class="fab fa-cc-visa"></i>
+                    <i class="fab fa-cc-mastercard"></i>
+                    <i class="fab fa-cc-paypal"></i>
+                    <i class="fab fa-bitcoin"></i>
+                </div>
+                <p class="developer-credit">
+                    Desarrollado con <i class="fas fa-heart"></i> por 
+                    <a href="https://wa.me/18093408435?text=Hola!%20Necesito%20un%20sitio%20web%20moderno" target="_blank">
+                        NTDESWEB
+                    </a>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Botón flotante de WhatsApp -->
+    <a href="https://wa.me/18093408435?text=Hola!%20Necesito%20ayuda" class="whatsapp-float" target="_blank" rel="noopener">
+        <i class="fab fa-whatsapp"></i>
+        <span class="whatsapp-tooltip">¿Necesitas ayuda?</span>
+    </a>
+
+    <!-- Botón de scroll to top -->
+    <button class="scroll-to-top" id="scrollToTop">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Modal de confirmación de pago exitoso -->
+    <div id="successModal" class="modal-overlay" style="display: none;">
+        <div class="modal-container small">
+            <div class="modal-header success">
+                <div class="success-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <h2 class="modal-title">¡Solicitud Enviada!</h2>
+            </div>
+            
+            <div class="modal-body">
+                <div class="success-message">
+                    <h3>Tu solicitud de pago ha sido recibida</h3>
+                    <p>Hemos registrado tu solicitud de pago correctamente.</p>
+                    
+                    <div class="success-details">
+                        <div class="detail-item">
+                            <i class="fas fa-clock"></i>
+                            <span>Estado: <strong>Pendiente de Verificación</strong></span>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fas fa-user"></i>
+                            <span>Usuario: <strong id="successUser">-</strong></span>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fas fa-dollar-sign"></i>
+                            <span>Monto: <strong id="successAmount">-</strong></span>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fas fa-credit-card"></i>
+                            <span>Método: <strong id="successMethod">-</strong></span>
+                        </div>
+                    </div>
+                    
+                    <div class="success-info">
+                        <i class="fas fa-info-circle"></i>
+                        <p>Podrás ver el estado de tu solicitud en tu panel de usuario. Recibirás una notificación cuando sea procesada.</p>
+                    </div>
+                    
+                    <div class="redirect-countdown" id="redirectCountdown">
+                        <i class="fas fa-clock"></i>
+                        <span>Redirigiendo automáticamente en <strong id="countdownNumber">10</strong> segundos...</span>
+                    </div>
+                </div>
+                
+                <div class="modal-actions">
+                    <button class="action-btn primary" onclick="redirectToDashboard()">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span>Ir al Panel Ahora</span>
+                    </button>
+                    <button class="action-btn secondary" onclick="closeSuccessModal()">
+                        <i class="fas fa-times"></i>
+                        <span>Cerrar</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sistema de notificaciones -->
+    <div id="notificationContainer" class="notification-stack"></div>
+
+    <!-- Scripts -->
+    <script src="paymentData.js"></script>
+    <script src="currencyConfig.js"></script>
+    <script src="config.js"></script>
+    <script src="telegramNotifications.js"></script>
+    
+    <!-- Toggle simple inline como fallback -->
+    <script>
+        // Función de toggle super simple
+        if (typeof window.togglePaymentGroup === 'undefined') {
+            window.togglePaymentGroup = function(element) {
+                console.log('🚀 Toggle inline ejecutado');
+                let group = element.parentElement;
+                if (group && group.classList.contains('payment-group')) {
+                    group.classList.toggle('active');
+                    console.log('✅ Toggle aplicado');
+                } else {
+                    console.error('❌ Error encontrando grupo');
+                }
+            };
+        }
+    </script>
+    
+    <script src="script_premium.js"></script>
+</body>
+</html>
+

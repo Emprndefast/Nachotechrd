@@ -1,0 +1,109 @@
+═══════════════════════════════════════════════════════════════
+  📱 IMPORTANTE: ACTUALIZAR QR CODES DE CRIPTOMONEDAS
+═══════════════════════════════════════════════════════════════
+
+Los QR codes actuales (theterdcymarqr.jpg, erc20cymar.jpg, bep20cymar.jpg)
+contienen las direcciones antiguas de Cymar.
+
+Necesitas generar nuevos QR codes con las direcciones actualizadas:
+
+───────────────────────────────────────────────────────────────
+1. 🔴 TRC20 (TRON) - USDT
+───────────────────────────────────────────────────────────────
+   Dirección: TCRFphD1bb18MQh1m9KkAkzVCZqTanmTkh
+   
+   Archivo actual: theterdcymarqr.jpg
+   Nuevo nombre sugerido: usdt_trc20_nachotech.jpg
+   
+   Genera en: https://www.qr-code-generator.com/
+   O usa tu app de Binance: Ve a Depositar > TRX > Ver QR
+
+───────────────────────────────────────────────────────────────
+2. 🔵 ERC20 (Ethereum) - USDT
+───────────────────────────────────────────────────────────────
+   Dirección: 0xa740e8838d5bf000557bbe52c6fb439b4af5c490
+   
+   Archivo actual: erc20cymar.jpg
+   Nuevo nombre sugerido: usdt_erc20_nachotech.jpg
+   
+   Genera en: https://www.qr-code-generator.com/
+   O usa tu app de Binance: Ve a Depositar > ETH > Ver QR
+
+───────────────────────────────────────────────────────────────
+3. 🟡 BEP20 (BSC) - USDT
+───────────────────────────────────────────────────────────────
+   Dirección: 0xa740e8838d5bf000557bbe52c6fb439b4af5c490
+   
+   Archivo actual: bep20cymar.jpg
+   Nuevo nombre sugerido: usdt_bep20_nachotech.jpg
+   
+   Genera en: https://www.qr-code-generator.com/
+   O usa tu app de Binance: Ve a Depositar > BNB > Ver QR
+
+═══════════════════════════════════════════════════════════════
+  📝 INSTRUCCIONES:
+═══════════════════════════════════════════════════════════════
+
+OPCIÓN 1: Usar Binance (Recomendado)
+─────────────────────────────────────
+1. Abre tu app de Binance
+2. Ve a "Fondos" > "Depositar"
+3. Selecciona USDT
+4. Elige la red (TRC20, ERC20 o BEP20)
+5. Verás tu dirección y un botón "Ver QR"
+6. Toma screenshot del QR
+7. Guárdalo como JPG en la carpeta Pagos/
+
+OPCIÓN 2: Generar Online
+─────────────────────────
+1. Ve a: https://www.qr-code-generator.com/
+2. Pega la dirección correspondiente
+3. Descarga el QR como JPG
+4. Guárdalo en la carpeta Pagos/
+
+OPCIÓN 3: Mantener los QR actuales temporalmente
+────────────────────────────────────────────────
+Los QR actuales seguirán funcionando hasta que los reemplaces.
+El sistema mostrará las direcciones correctas en texto de todas formas.
+
+═══════════════════════════════════════════════════════════════
+  🔄 DESPUÉS DE GENERAR LOS QR:
+═══════════════════════════════════════════════════════════════
+
+1. Coloca los 3 archivos JPG en: C:\xampp\htdocs\nachotechrd\Pagos\
+
+2. Actualiza los nombres en paymentData.js:
+
+   Opción A: Renombra tus nuevos QR con los nombres actuales
+   ─────────────────────────────────────────────────────────
+   theterdcymarqr.jpg  → Reemplaza con tu nuevo QR de TRC20
+   erc20cymar.jpg      → Reemplaza con tu nuevo QR de ERC20
+   bep20cymar.jpg      → Reemplaza con tu nuevo QR de BEP20
+
+   Opción B: Cambia los nombres en paymentData.js
+   ───────────────────────────────────────────────
+   Edita las líneas 11, 26 y 41 de paymentData.js
+   Cambia los nombres de archivo por los nuevos
+
+3. Recarga la página con Ctrl + Shift + R
+
+4. Abre un método de crypto y verifica que el QR sea correcto
+
+═══════════════════════════════════════════════════════════════
+  ⚠️ IMPORTANTE:
+═══════════════════════════════════════════════════════════════
+
+- Los QR deben contener SOLO la dirección (sin texto adicional)
+- Formato: JPG o PNG
+- Tamaño recomendado: 500x500 píxeles mínimo
+- Verifica que el QR escanee correctamente antes de publicar
+- Prueba con tu app de crypto para confirmar
+
+═══════════════════════════════════════════════════════════════
+
+✅ Las direcciones en el modal YA están actualizadas
+✅ Los clientes pueden copiar/pegar manualmente
+✅ Los QR son opcionales pero muy convenientes
+
+═══════════════════════════════════════════════════════════════
+

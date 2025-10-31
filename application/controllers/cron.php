@@ -69,12 +69,54 @@ class Cron extends CI_Controller
 					$para['LOCKS'] = $order['Locks'];
 		
 					$request = $api->action('placeimeiorder', $para);
+					
+					// Logging mejorado
 					if (isset($request['SUCCESS']) && count($request['SUCCESS'])>0 )
 					{
 						$data['ReferenceID'] = $request['SUCCESS'][0]['REFERENCEID']; // get ID from Server
-						$data['UpdatedDateTime'] = date("Y-m-d H:i:s");									
-						$this->imeiorder_model->update($data, $order['ID']);						
-					}					
+						$data['UpdatedDateTime'] = date("Y-m-d H:i:s");
+						$data['Comments'] = 'Enviado a API exitosamente. ReferenceID: ' . $data['ReferenceID'];
+						$this->imeiorder_model->update($data, $order['ID']);
+						
+						// Log exitoso
+						log_message('info', "IMEI Order #{$order['ID']} enviado a API. ReferenceID: {$data['ReferenceID']}");
+					}
+					else if (isset($request['ERROR']) && count($request['ERROR'])>0)
+					{
+						// Error de la API (incluyendo falta de fondos)
+						$error_msg = isset($request['ERROR'][0]['MESSAGE']) ? $request['ERROR'][0]['MESSAGE'] : 'Error desconocido';
+						$error_code = isset($request['ERROR'][0]['CODE']) ? $request['ERROR'][0]['CODE'] : '';
+						
+						$data['Comments'] = "Error API: {$error_msg} (Código: {$error_code})";
+						$data['Status'] = 'Canceled';
+						$data['UpdatedDateTime'] = date("Y-m-d H:i:s");
+						$this->imeiorder_model->update($data, $order['ID']);
+						
+						// Reembolsar créditos si hay error
+						$this->credit_model->refund($order['ID'], IMEI_CODE_REQUEST, $order['MemberID']);
+						
+						// Log de error
+						log_message('error', "IMEI Order #{$order['ID']} RECHAZADO por API. Error: {$error_msg} | Código: {$error_code}");
+						
+						// Detectar si es por falta de fondos
+						if (stripos($error_msg, 'balance') !== false || 
+						    stripos($error_msg, 'credit') !== false || 
+						    stripos($error_msg, 'fund') !== false ||
+						    stripos($error_msg, 'insufficient') !== false ||
+						    $error_code == 'INSUFFICIENT_BALANCE')
+						{
+							log_message('error', "⚠️ CRÍTICO: API Proveedora rechazó pedido por FALTA DE FONDOS. Order #{$order['ID']}");
+						}
+					}
+					else
+					{
+						// Respuesta inesperada
+						$data['Comments'] = 'Error: Respuesta inesperada de la API. ' . json_encode($request);
+						$data['UpdatedDateTime'] = date("Y-m-d H:i:s");
+						$this->imeiorder_model->update($data, $order['ID']);
+						
+						log_message('error', "IMEI Order #{$order['ID']} - Respuesta inesperada: " . json_encode($request));
+					}
 					break;
 			}
 			sleep(1);
@@ -106,35 +148,76 @@ class Cron extends CI_Controller
 					$para['ID'] = $imei_orders['ReferenceID']; // got REFERENCEID from placeimeiorder
 					$request = $api->action('getimeiorder', $para);
 					//echo '<pre>'; var_dump($request); die('</pre>');
+					
 					if(isset($request['SUCCESS']) && count($request['SUCCESS'])>0)
 					{
-						switch(intval($request['SUCCESS'][0]['STATUS']))
+						$status = intval($request['SUCCESS'][0]['STATUS']);
+						$status_msg = isset($request['SUCCESS'][0]['MESSAGE']) ? $request['SUCCESS'][0]['MESSAGE'] : '';
+						
+						switch($status)
 						{
-							case 0: // Pendding					
-							case 1: //In Process				
-							case 2:
+							case 0: // Pending
+							case 1: // In Process				
+							case 2: // Processing
+								// Solo actualizar timestamp, no cambiar status
+								$data['UpdatedDateTime'] = date("Y-m-d H:i:s");
+								$this->imeiorder_model->update($data, $id);
+								log_message('debug', "IMEI Order #{$id} aún en proceso. Status: {$status}");
 								break;
+								
 							case 3: // Rejected
-								$data['Code'] = $request['SUCCESS'][0]['CODE'];
-								$data['Comments'] = $request['SUCCESS'][0]['CODE'];
+								$code = isset($request['SUCCESS'][0]['CODE']) ? $request['SUCCESS'][0]['CODE'] : '';
+								$reason = isset($request['SUCCESS'][0]['MESSAGE']) ? $request['SUCCESS'][0]['MESSAGE'] : 'Rechazado por API';
+								
+								$data['Code'] = $code;
+								$data['Comments'] = "Rechazado: {$reason}";
 								$data['Status'] = 'Canceled';
 								$data['UpdatedDateTime'] = date("Y-m-d H:i:s");									
 								$this->imeiorder_model->update($data, $id);
 								
 								## Amount Refund ##
 								$this->credit_model->refund($id, IMEI_CODE_REQUEST, $member_id);
+								
 								## Get Canceled Email Template ##
 								$data = $this->autoresponder_model->get_where(array('Status' => 'Enabled', 'ID' => 2)); // IMEI Code Canceled 
+								
+								// Log rechazo
+								log_message('error', "IMEI Order #{$id} RECHAZADO. Razón: {$reason}");
+								
+								// Verificar si es por falta de fondos en proveedor
+								if (stripos($reason, 'balance') !== false || 
+								    stripos($reason, 'credit') !== false || 
+								    stripos($reason, 'fund') !== false ||
+								    stripos($reason, 'insufficient') !== false)
+								{
+									log_message('error', "⚠️ CRÍTICO: API Proveedora rechazó por FALTA DE FONDOS. Order #{$id} | Razón: {$reason}");
+								}
 								break;
-							case 4:	//success
-								$data['Code'] = $request['SUCCESS'][0]['CODE'];
+								
+							case 4:	// Success
+								$code = isset($request['SUCCESS'][0]['CODE']) ? $request['SUCCESS'][0]['CODE'] : '';
+								$data['Code'] = $code;
 								$data['Status'] = 'Issued';
 								$data['UpdatedDateTime'] = date("Y-m-d H:i:s");									
 								$this->imeiorder_model->update($data, $id);
+								
 								## Get Issue Email Template ##
 								$data = $this->autoresponder_model->get_where(array('Status' => 'Enabled', 'ID' => 3)); // IMEI Code Issued 
+								
+								// Log éxito
+								log_message('info', "IMEI Order #{$id} COMPLETADO. Código generado.");
+								break;
+								
+							default:
+								log_message('warning', "IMEI Order #{$id} - Status desconocido: {$status}");
 								break;
 						}				
+					}
+					else if (isset($request['ERROR']) && count($request['ERROR'])>0)
+					{
+						// Error al consultar el estado
+						$error_msg = isset($request['ERROR'][0]['MESSAGE']) ? $request['ERROR'][0]['MESSAGE'] : 'Error desconocido';
+						log_message('error', "IMEI Order #{$id} - Error al consultar estado: {$error_msg}");
 					}
 				break;
 			}

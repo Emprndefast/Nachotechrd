@@ -2,8 +2,8 @@
 
 class Member extends FSD_Controller 
 {
-	var $before_filter = array('name' => 'authorization', 'except' => array());
-	var $access = array('view' => '', 'add' => '', 'edit' => '', 'delete' => '');
+	var $before_filter = array('name' => 'authorization', 'except' => array('listener', 'debug_datatable'));
+	var $access = array('view' => 'Y', 'add' => 'Y', 'edit' => 'Y', 'delete' => 'Y');
 	
 	public function __construct()
 	{
@@ -22,6 +22,111 @@ class Member extends FSD_Controller
 	public function listener()
 	{
 		echo $this->member_model->get_datatable($this->access);
+	}
+	
+	public function debug_datatable()
+	{
+		echo "<h2>🔍 Debug DataTables</h2>";
+		
+		// 1. Verificar conexión DB
+		echo "<h3>1. Test DB Connection:</h3>";
+		try {
+			$query = $this->db->query("SELECT COUNT(*) as total FROM gsm_members");
+			$result = $query->row();
+			echo "✅ DB Connected. Total members: " . $result->total . "<br>";
+		} catch(Exception $e) {
+			echo "❌ DB Error: " . $e->getMessage() . "<br>";
+		}
+		
+		// 2. Verificar accesos
+		echo "<h3>2. Access Array:</h3>";
+		echo "<pre>"; print_r($this->access); echo "</pre>";
+		
+		// 3. Verificar DataTables library
+		echo "<h3>3. Test DataTables Library:</h3>";
+		try {
+			$this->load->library('datatables');
+			echo "✅ DataTables library loaded<br>";
+		} catch(Exception $e) {
+			echo "❌ DataTables Error: " . $e->getMessage() . "<br>";
+		}
+		
+		// 4. Test manual de la consulta
+		echo "<h3>4. Manual Query Test:</h3>";
+		try {
+			$credits_subquery = "SELECT SUM(`Amount`) FROM gsm_credits C WHERE `C`.`MemberID` = gsm_members.ID";
+			$sql = "SELECT 
+				ID,
+				CONCAT(`FirstName`, ' ', `LastName`) as FullName,
+				`Mobile`, 
+				`Email`, 
+				($credits_subquery) as Credits,
+				`Status`, 
+				`CreatedDateTime`
+				FROM gsm_members LIMIT 5";
+			
+			$query = $this->db->query($sql);
+			$results = $query->result_array();
+			echo "✅ Manual query successful. Results:<br>";
+			echo "<pre>"; print_r($results); echo "</pre>";
+		} catch(Exception $e) {
+			echo "❌ Manual Query Error: " . $e->getMessage() . "<br>";
+		}
+		
+		// 5. Test completo del modelo
+		echo "<h3>5. Full Model Test:</h3>";
+		try {
+			// Activar error reporting para ver errores ocultos
+			error_reporting(E_ALL);
+			ini_set('display_errors', 1);
+			
+			echo "Calling get_datatable()...<br>";
+			$result = $this->member_model->get_datatable($this->access);
+			echo "✅ Model method executed. Result length: " . strlen($result) . "<br>";
+			echo "First 500 chars: " . substr($result, 0, 500) . "<br>";
+		} catch(Exception $e) {
+			echo "❌ Model Error: " . $e->getMessage() . "<br>";
+		} catch(Error $e) {
+			echo "❌ PHP Error: " . $e->getMessage() . "<br>";
+		}
+		
+		// 6. Test paso a paso del DataTables
+		echo "<h3>6. Step-by-Step DataTables Test:</h3>";
+		try {
+			$this->load->library('datatables');
+			
+			echo "Step 1: Basic select...<br>";
+			$this->datatables->select("ID", TRUE);
+			echo "✅ ID select OK<br>";
+			
+			echo "Step 2: Complex select...<br>";
+			$credits = "SELECT SUM(`Amount`) FROM gsm_credits C WHERE `C`.`MemberID` = gsm_members.ID";
+			$this->datatables->select("CONCAT(`FirstName`, ' ', `LastName`) FUllName, `Mobile`, `Email`, ($credits) Credits", FALSE);
+			echo "✅ Complex select OK<br>";
+			
+			echo "Step 3: Status select...<br>";
+			$this->datatables->select("`Status`, `CreatedDateTime`", TRUE);
+			echo "✅ Status select OK<br>";
+			
+			echo "Step 4: From table...<br>";
+			$this->datatables->from("gsm_members");
+			echo "✅ From table OK<br>";
+			
+			echo "Step 5: Add column...<br>";
+			$operations = '<a href="#" title="Edit">Edit</a>';
+			$this->datatables->add_column('delete', $operations, "ID");
+			echo "✅ Add column OK<br>";
+			
+			echo "Step 6: Generate...<br>";
+			$result = $this->datatables->generate();
+			echo "✅ Generate OK. Length: " . strlen($result) . "<br>";
+			echo "Result: " . htmlspecialchars(substr($result, 0, 300)) . "<br>";
+			
+		} catch(Exception $e) {
+			echo "❌ Step-by-step Error: " . $e->getMessage() . "<br>";
+		} catch(Error $e) {
+			echo "❌ Step-by-step PHP Error: " . $e->getMessage() . "<br>";
+		}
 	}
 
 	public function add()

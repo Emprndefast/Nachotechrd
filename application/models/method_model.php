@@ -53,19 +53,75 @@ class method_model extends CI_Model
 	public function method_with_networks() 
 	{
         $data = array();
-        $query = $this->db->get($this->tbl_networks);
-        foreach ($query->result_array() as $network) 
-        {
-            $network_id = $network['ID'];
-            $data[$network_id]['Title'] = $network['Title'];
+        
+        // Obtener métodos habilitados SOLO de APIs activas de tipo IMEI
+        // IMPORTANTE: 
+        // 1. Solo mostrar servicios si la API asociada está activa (Status = 'Enabled')
+        // 2. Solo mostrar servicios de APIs de tipo 'Imei' (no Server)
+        // 3. Solo mostrar servicios con Status = 'Enabled'
+        // 4. Ordenar por Description (GROUPNAME) para agrupar correctamente
+        $this->db->select("$this->tbl_name.*")
+        ->from($this->tbl_name)
+        ->join($this->tbl_apis, "$this->tbl_name.ApiID = $this->tbl_apis.ID", "inner")
+        ->where("$this->tbl_name.Status", "Enabled")
+        ->where("$this->tbl_apis.Status", "Enabled") // Solo APIs activas
+        ->where("$this->tbl_apis.ApiType", "Imei") // ← CRÍTICO: Solo APIs de tipo IMEI
+        ->order_by("$this->tbl_name.Description", "ASC") // Agrupar por GROUPNAME
+        ->order_by("$this->tbl_name.Title", "ASC"); // Ordenar servicios dentro del grupo
+        
+        $query = $this->db->get();
+        
+        // Log para debugging - Detallado
+        log_message('debug', 'method_with_networks: Query ejecutada');
+        log_message('debug', 'method_with_networks: SQL: ' . $this->db->last_query());
+        log_message('debug', 'method_with_networks: Total métodos encontrados: ' . $query->num_rows());
+        
+        // Debug adicional si no hay resultados
+        if($query->num_rows() == 0) {
+            log_message('debug', 'method_with_networks: ⚠️ NO se encontraron métodos que cumplan los criterios');
+            // Verificar qué APIs hay disponibles
+            $this->db->select("ID, Title, ApiType, Status")
+            ->from($this->tbl_apis)
+            ->limit(10);
+            $debug_apis = $this->db->get();
+            log_message('debug', 'method_with_networks: APIs disponibles: ' . $debug_apis->num_rows());
+            foreach($debug_apis->result_array() as $api) {
+                log_message('debug', 'method_with_networks: API - ID: ' . $api['ID'] . ', Title: ' . $api['Title'] . ', ApiType: ' . $api['ApiType'] . ', Status: ' . $api['Status']);
+            }
         }
-                
-        $query = $this->db->get_where($this->tbl_name, array('Status' => 'Enabled'));
+        
+        // Agrupar por Description (GROUPNAME) en lugar de NetworkID
         foreach ($query->result_array() as $method) 
         {
-            $network_id = $method['NetworkID'];
-            $data[$network_id]['methods'][] = $method;
+            // Usar Description como clave de agrupación (GROUPNAME)
+            // Si no tiene Description, usar 'Sin Grupo' como fallback
+            $group_name = !empty($method['Description']) ? trim($method['Description']) : 'Sin Grupo';
+            
+            // Usar hash del nombre del grupo como ID para mantener compatibilidad
+            $group_id = md5($group_name);
+            
+            // Si el grupo no existe, crearlo
+            if(!isset($data[$group_id])) {
+                $data[$group_id] = array(
+                    'Title' => $group_name,
+                    'GroupID' => $group_id,
+                    'methods' => array()
+                );
+            }
+            
+            // Agregar el método al grupo correspondiente
+            $data[$group_id]['methods'][] = $method;
         }
+        
+        // Log para debugging
+        $total_methods = 0;
+        foreach($data as $group) {
+            if(isset($group['methods'])) {
+                $total_methods += count($group['methods']);
+            }
+        }
+        log_message('debug', 'method_with_networks: Total métodos agrupados por GROUPNAME: ' . $total_methods . ' en ' . count($data) . ' grupos');
+        
         return $data;
     }         
 	
@@ -165,6 +221,17 @@ class method_model extends CI_Model
     public function delete_api_relate($api_id)
     {
     	$this->db->delete($this->tbl_name, array('ApiID' => $api_id));
+    }
+    
+    /**
+     * Actualizar Status de todos los métodos asociados a una API
+     * Usado cuando se activa/desactiva una API
+     */
+    public function update_batch_status_by_api($api_id, $status)
+    {
+        $this->db->where('ApiID', $api_id);
+        $this->db->update($this->tbl_name, array('Status' => $status, 'UpdatedDateTime' => date("Y-m-d H:i:s")));
+        return $this->db->affected_rows();
     }
 	
 	function get_datatable($access)

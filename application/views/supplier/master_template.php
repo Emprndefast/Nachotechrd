@@ -7,7 +7,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <![endif]-->
     
-    <title>Unlocknetwork - Admin Panel</title>
+    <title>NACHOTECHRD - Supplier Panel</title>
 
     <?php /*<link rel="icon" type="image/ico" href="<?php echo $this->config->item('assets_url');?>img/favicon.ico"/>**/?>
     

@@ -98,24 +98,43 @@ $(document).ready(function(){
     });
 
     $(".settings .styleExample").click(function(){
-        var cls = $(this).attr('data-style');        
+        var cls = $(this).attr('data-style');
+        var theme = $(this).attr('data-theme');
         
         if($('.wrapper').hasClass('fixed'))
             $(".wrapper").attr('class','').addClass('wrapper fixed');
         else
             $(".wrapper").attr('class','').addClass('wrapper');
-            
                         
         $('.settings .styleExample').removeClass('active');
         
+        // Remover todos los temas profesionales del body
+        $('body').removeClass('theme-default theme-dark-pro theme-ocean-blue theme-purple-dream theme-emerald-green theme-sunset-orange');
+        
         if(cls != ''){
             $(".wrapper").addClass(cls);
+            // Si tiene data-theme, aplicarlo al body también
+            if(theme) {
+                $('body').addClass('theme-' + theme);
+                $.cookies.set('themeSettings_bodyTheme', theme);
+            } else {
+                $.cookies.set('themeSettings_bodyTheme', null);
+            }
             $(this).addClass('active');
             $.cookies.set('themeSettings_style',cls);
-        }else
+        }else{
+            $(this).addClass('active');
             $.cookies.set('themeSettings_style',null);
+            $.cookies.set('themeSettings_bodyTheme',null);
+        }
     
         return false;
     });
+    
+    // Cargar tema del body desde cookies al iniciar
+    var tBodyTheme = $.cookies.get('themeSettings_bodyTheme');
+    if(null != tBodyTheme){
+        $('body').addClass('theme-' + tBodyTheme);
+    }
     
 });

@@ -107,11 +107,41 @@ class Method extends FSD_Controller
 		}
 		else
 		{
-			unset($data['ID']);					
+			unset($data['ID']);
+			
+			// Determinar Status
+			$new_status = isset($data['Status']) ? "Enabled" : "Disabled";
+			$data['Status'] = $new_status;
+			
+			// Obtener información del método actual
+			$current_method = $this->method_model->get_where(array('ID' => $id));
+			$api_id = !empty($current_method) && isset($current_method[0]['ApiID']) ? $current_method[0]['ApiID'] : null;
+			
+			// Si se está intentando activar un método, verificar que su API esté activa
+			if($new_status === 'Enabled' && $api_id) {
+				$api_info = $this->apimanager_model->get_where(array('ID' => $api_id));
+				if(!empty($api_info) && isset($api_info[0]['Status']) && $api_info[0]['Status'] !== 'Enabled') {
+					// API está desactivada, no permitir activar el método
+					$this->session->set_flashdata('warning', 'No se puede activar este servicio porque su API está desactivada. Por favor, activa primero la API en API Manager.');
+					redirect("admin/method/edit/{$id}");
+					return;
+				}
+			}
+					
 			$data['UpdatedDateTime'] = date("Y-m-d H:i:s");
 						
 			$this->method_model->update($data, $id);
-			$this->session->set_flashdata('success', 'Record updated successfully.');
+			
+			if($new_status === 'Enabled' && $api_id) {
+				$api_info = $this->apimanager_model->get_where(array('ID' => $api_id));
+				if(!empty($api_info)) {
+					$this->session->set_flashdata('success', 'Servicio actualizado correctamente. El servicio aparecerá en el frontend si su API está activa.');
+				} else {
+					$this->session->set_flashdata('success', 'Record updated successfully.');
+				}
+			} else {
+				$this->session->set_flashdata('success', 'Record updated successfully.');
+			}
 			redirect("admin/method/");
 		}
 	}
@@ -196,7 +226,59 @@ class Method extends FSD_Controller
 		}		
 		$this->session->set_flashdata('success', 'Sync updated successfully.');
 		redirect("admin/method/");
-	}	
+	}
+	
+	/**
+	 * Eliminar múltiples métodos en una sola operación
+	 * Acceso: AJAX POST a admin/method/bulk_delete
+	 */
+	public function bulk_delete()
+	{
+		if(!$this->input->is_ajax_request()) {
+			show_404();
+			return;
+		}
+		
+		$ids = $this->input->post('ids');
+		
+		if(empty($ids) || !is_array($ids)) {
+			echo json_encode(array('success' => false, 'error' => 'No se proporcionaron IDs'));
+			return;
+		}
+		
+		$deleted = 0;
+		$errors = array();
+		
+		foreach($ids as $id) {
+			$id = intval($id);
+			if($id <= 0) continue;
+			
+			try {
+				// Verificar si tiene órdenes asociadas
+				$order_count = $this->imeiorder_model->count_where(array('MethodID' => $id));
+				
+				if($order_count > 0) {
+					$errors[] = "Método ID $id tiene $order_count orden(es) asociada(s)";
+					continue;
+				}
+				
+				$this->method_model->delete($id);
+				$deleted++;
+			} catch(Exception $e) {
+				$errors[] = "Error al eliminar método ID $id: " . $e->getMessage();
+			}
+		}
+		
+		if($deleted > 0) {
+			$message = "Se eliminaron $deleted método(s) correctamente.";
+			if(count($errors) > 0) {
+				$message .= " Errores: " . implode(', ', $errors);
+			}
+			echo json_encode(array('success' => true, 'message' => $message, 'deleted' => $deleted, 'errors' => $errors));
+		} else {
+			echo json_encode(array('success' => false, 'error' => 'No se pudo eliminar ningún método', 'errors' => $errors));
+		}
+	}
 }
 
 /* End of file method.php */

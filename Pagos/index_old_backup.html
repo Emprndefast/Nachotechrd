@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NachoTechRD - Métodos de Pago</title>
+    <link rel="stylesheet" href="styles_nuevo.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Banners de Noticias Deslizantes -->
+    <div class="news-banner">
+        <div class="banner-slide active">
+            <i class="fas fa-star"></i>
+            <span class="news-text">⭐️ PRECIOS COMPETITIVOS - SERVICIO PREMIUM 24/7 ⭐️</span>
+        </div>
+        <div class="banner-slide">
+            <i class="fab fa-telegram"></i>
+            <span class="news-text">📱 Soporte en Telegram ⚡️ Escríbenos para todo lo que necesites - Soporte 24/7</span>
+        </div>
+        <div class="banner-slide">
+            <i class="fas fa-bolt"></i>
+            <span class="news-text">⚡️ Recargas Instantáneas con Múltiples Métodos de Pago - Fácil y Rápido</span>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Sección Superior: Info del Server -->
+        <div class="server-info">
+            <div class="title-section">
+                <i class="fas fa-bolt title-icon"></i>
+                <h1>NACHOTECH RD</h1>
+                <i class="fas fa-bolt title-icon"></i>
+            </div>
+                <p class="slogan" id="rotatingSlogan">Tu Aliado Digital de Confianza</p>
+                <p class="sub-slogan" id="rotatingSubSlogan">Desbloqueos • Reparaciones • Herramientas Premium</p>
+        </div>
+
+        <!-- Carrusel de Imágenes -->
+        <div class="carousel-container">
+            <div class="carousel-wrapper">
+                <div class="carousel-slide active">
+                    <img src="A12HFZ.png" alt="HFZ Activator">
+                </div>
+                <div class="carousel-slide">
+                    <img src="A12iRemovalPRO.png" alt="iRemoval PRO">
+                </div>
+                <div class="carousel-slide">
+                    <img src="A12iRemoveTools.png" alt="iRemove Tools">
+                </div>
+                <div class="carousel-slide">
+                    <img src="A12Minacriss.png" alt="Minacriss">
+                </div>
+                <div class="carousel-slide">
+                    <img src="A12Otix.png" alt="OTIX Activator">
+                </div>
+                <div class="carousel-slide">
+                    <img src="A12Signal.png" alt="Signal Bypass">
+                </div>
+                <div class="carousel-slide">
+                    <img src="A12SMD.png" alt="SMD Activator">
+                </div>
+                <div class="carousel-slide">
+                    <img src="BypassWifi.png" alt="Bypass WiFi">
+                </div>
+                <div class="carousel-controls">
+                    <button class="carousel-btn prev" onclick="changeSlide(-1)">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="carousel-btn next" onclick="changeSlide(1)">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+                <div class="carousel-dots">
+                    <span class="dot active" onclick="currentSlide(1)"></span>
+                    <span class="dot" onclick="currentSlide(2)"></span>
+                    <span class="dot" onclick="currentSlide(3)"></span>
+                    <span class="dot" onclick="currentSlide(4)"></span>
+                    <span class="dot" onclick="currentSlide(5)"></span>
+                    <span class="dot" onclick="currentSlide(6)"></span>
+                    <span class="dot" onclick="currentSlide(7)"></span>
+                    <span class="dot" onclick="currentSlide(8)"></span>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Sección de Métodos de Pago -->
+        <div class="payment-section">
+            <h2>Métodos de Pago Disponibles</h2>
+            <p class="subtitle">Paga con los mejores métodos disponibles en todo el mundo.</p>
+            
+            <!-- Grid de Métodos de Pago -->
+            <div class="payment-grid">
+                <!-- Grupo: República Dominicana (PRINCIPAL) -->
+                <div class="payment-group">
+                    <div class="payment-main-button" onclick="toggleGroup(this)">
+                        <i class="fas fa-flag"></i>
+                        <span>República Dominicana</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="payment-submenu">
+                        <div class="payment-button" data-method="bancopopular">
+                            <i class="fas fa-university"></i>
+                            <span>Banco Popular (RD)</span>
+                        </div>
+                        <div class="payment-button" data-method="banreservas">
+                            <i class="fas fa-university"></i>
+                            <span>BanReservas (RD)</span>
+                        </div>
+                        <div class="payment-button" data-method="bhd">
+                            <i class="fas fa-university"></i>
+                            <span>BHD (RD)</span>
+                        </div>
+                        <div class="payment-button" data-method="mioreserva">
+                            <i class="fas fa-university"></i>
+                            <span>MiO - Reserva (RD)</span>
+                        </div>
+                        <div class="payment-button" data-method="qik">
+                            <i class="fas fa-university"></i>
+                            <span>Qik (RD)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Grupo: Criptomonedas -->
+                <div class="payment-group">
+                    <div class="payment-main-button" onclick="toggleGroup(this)">
+                        <i class="fab fa-bitcoin"></i>
+                        <span>Criptomonedas</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="payment-submenu">
+                        <!-- Sección USDT (Principal) -->
+                        <div class="crypto-section-header">
+                            <small>💰 USDT (Tether) - Elige tu red:</small>
+                        </div>
+                        <div class="payment-button" data-method="usdt">
+                            <i class="fas fa-coins"></i>
+                            <span>USDT TRC20 (Tron) - Más Barato</span>
+                        </div>
+                        <div class="payment-button" data-method="usdterc20">
+                            <i class="fab fa-ethereum"></i>
+                            <span>USDT ERC20 (Ethereum) - Más Seguro</span>
+                        </div>
+                        <div class="payment-button" data-method="usdtbep20">
+                            <i class="fas fa-cube"></i>
+                            <span>USDT BEP20 (BNB Chain) - Equilibrado</span>
+                        </div>
+                        
+                    </div>
+                </div>
+
+
+                <!-- Grupo: Otros métodos -->
+                <div class="payment-group">
+                    <div class="payment-main-button" onclick="toggleGroup(this)">
+                        <i class="fas fa-globe-americas"></i>
+                        <span>Otros métodos</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="payment-submenu">
+                        <div class="payment-button" data-method="lemoncash">
+                            <i class="fas fa-coins"></i>
+                            <span>Lemon Cash USDT</span>
+                        </div>
+                        <div class="payment-button" data-method="binance">
+                            <i class="fas fa-wallet"></i>
+                            <span>Binance Pay</span>
+                        </div>
+                        <div class="payment-button" data-method="paypalcustom">
+                            <i class="fab fa-paypal"></i>
+                            <span>PayPal</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Grupo: Transferencias Internacionales -->
+                <div class="payment-group">
+                    <div class="payment-main-button" onclick="toggleGroup(this)">
+                        <i class="fas fa-exchange-alt"></i>
+                        <span>Transferencias Internacionales</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="payment-submenu">
+                        <div class="payment-button" data-method="mexico">
+                            <i class="fas fa-exchange-alt"></i>
+                            <span>México</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="display:flex; gap:10px; align-items:center; flex-wrap: wrap;">
+            <button class="info-button" onclick="showRechargeInfo()">
+                Cómo Recargar en el Servidor
+            </button>
+            <button class="info-button" onclick="(async()=>{ const ok = await window.testTelegramNotification(); if(ok){ alert('✅ Test enviado a Telegram'); } else { alert('❌ No se pudo enviar el test. Revisa el TOKEN y CHAT_ID.'); } })()">
+                Probar Bot de Telegram
+            </button>
+            <div class="mini-input-wrapper" style="display:flex; align-items:center; gap:8px;">
+                <input type="text" id="tgChatIdInput" placeholder="Chat ID admin" style="padding:8px 12px;border:1px solid #e5e7eb;border-radius:8px;">
+                <button class="info-button" onclick="(function(){ var v=document.getElementById('tgChatIdInput').value.trim(); if(v){ window.telegramNotifier && window.telegramNotifier.setChatId(v); alert('✅ Chat ID guardado: '+v); } else { alert('Ingresa un Chat ID'); } })()">Guardar Chat ID</button>
+            </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="paymentModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="modalTitle">Método de Pago</h2>
+            <div id="modalInfo"></div>
+            
+            <!-- Calculadora específica del método -->
+            <div class="modal-calculator" id="modalCalculator" style="display: none;">
+                <div class="calculator-header">
+                    <h4><i class="fas fa-calculator"></i> Calculadora de Pago</h4>
+                    <p>Calcula el monto exacto a enviar</p>
+                </div>
+                
+                <div class="calculator-content">
+                    <!-- Input para el monto deseado -->
+                    <div class="calc-input-group">
+                        <label for="modalReceiveAmount">Monto que deseas en el servidor:</label>
+                        <div class="calc-input-wrapper">
+                            <input type="number" id="modalReceiveAmount" placeholder="10" min="0" step="0.01">
+                            <span class="currency-label">USD</span>
+                        </div>
+                    </div>
+
+                    <!-- Resultados de la calculadora -->
+                    <div class="calc-results">
+                        <div class="calc-result primary">
+                            <span class="calc-label">💰 Monto a Enviar:</span>
+                            <span class="calc-value" id="modalSendAmount">0.00 USD</span>
+                        </div>
+                        <div class="calc-result" id="modalCommissionContainer" style="display: none !important; visibility: hidden !important; opacity: 0 !important; height: 0 !important; padding: 0 !important; margin: 0 !important; overflow: hidden !important;">
+                            <span class="calc-label">Comisión del Servicio:</span>
+                            <span class="calc-value" id="modalCommission">0.00 USD</span>
+                        </div>
+                        <div class="calc-result conversion" id="modalConversion" style="display: none;">
+                            <span class="calc-label">Equivalente Local:</span>
+                            <span class="calc-value" id="modalLocalAmount">0.00</span>
+                        </div>
+                    </div>
+
+                    <div class="calc-note">
+                        <span id="modalCalcNote">💡 Calculadora: conversión directa por tasa local</span>
+                    </div>
+                </div>
+            </div>
+            
+            <form id="paymentForm" onsubmit="handlePayment(event)">
+                <!-- Campos estándar -->
+                <div class="form-group">
+                    <label for="userName">Nombre Completo</label>
+                    <input type="text" id="userName" required>
+                </div>
+                
+                <!-- Campos específicos para USDT -->
+                <div class="form-group usdt-specific" style="display: none;">
+                    <label for="serverEmail">Correo que usa para ingresar al servidor *</label>
+                    <input type="email" id="serverEmail" placeholder="correo@ejemplo.com">
+                    <small class="field-note">Este es el correo con el que accedes a tu cuenta del servidor</small>
+                </div>
+                
+                <!-- Campos específicos para métodos locales -->
+                <div class="form-group local-payment-specific" style="display: none;">
+                    <label for="serverEmailLocal">Correo que usa para ingresar al servidor *</label>
+                    <input type="email" id="serverEmailLocal" placeholder="correo@ejemplo.com">
+                    <small class="field-note">Este es el correo con el que accedes a tu cuenta del servidor</small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="userEmail">Correo de Contacto</label>
+                    <input type="email" id="userEmail" required>
+                </div>
+                
+                <!-- Campo de monto con nota específica para USDT -->
+                <div class="form-group">
+                    <label for="amount">
+                        <span class="usdt-specific" style="display: none;">Monto que debe llegar al servidor (USD) *</span>
+                        <span class="general-amount">Monto a Pagar ($)</span>
+                    </label>
+                    <input type="number" id="amount" step="0.01" required>
+                    <small class="field-note usdt-specific" style="display: none;">
+                        🔥 Mínimo 10 USD - Este es el monto que se acreditará a tu cuenta del servidor
+                    </small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="transactionRef">
+                        <span class="usdt-specific" style="display: none;">ID de la Transacción USDT *</span>
+                        <span class="yape-specific" style="display: none;">Código de Seguridad Yape *</span>
+                        <span class="bcp-specific" style="display: none;">Número de Operación *</span>
+                        <span class="mexico-specific" style="display: none;">No. de Referencia *</span>
+                        <span class="dominicana-specific" style="display: none;">No. de Referencia *</span>
+                        <span class="general-ref">Referencia de Transacción / Número de Operación</span>
+                    </label>
+                    <input type="text" id="transactionRef" required>
+                    <small class="field-note usdt-specific" style="display: none;" id="transactionNote">
+                        Ingresa el hash de la transacción de USDT
+                    </small>
+                    <small class="field-note yape-specific" style="display: none;">
+                        Ingresa el código de seguridad de tu pago Yape
+                    </small>
+                    <small class="field-note bcp-specific" style="display: none;">
+                        Ingresa el número de operación de tu transferencia BCP
+                    </small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="additionalInfo">Información Adicional (Opcional)</label>
+                    <textarea id="additionalInfo" rows="3"></textarea>
+                </div>
+                
+                <!-- Nota importante para USDT -->
+                <div class="usdt-warning" style="display: none;">
+                    <div class="warning-box">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <div id="warningContent">
+                            <strong>⚠️ IMPORTANTE:</strong><br>
+                            • La comisión la paga quien envía el dinero<br>
+                            • Lo que llega a la cuenta es lo que se pone en créditos<br>
+                            • Red: <span id="networkWarning">USDT</span> únicamente<br>
+                            • Monto mínimo: 10 USD
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Nota importante para YAPE -->
+                <div class="yape-warning" style="display: none;">
+                    <div class="warning-box">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <div>
+                            <strong>⚠️ YAPE - IMPORTANTE:</strong><br>
+                            • 1 crédito = 4 soles<br>
+                            • Monto mínimo: 40 soles - máximo: 500 soles<br>
+                            • No enviar notas en el pago ❌ o será rechazado sin reembolso<br>
+                            • Aceleración: Enviar foto de pago a @CymartSoporte telegram
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Nota importante para BCP -->
+                <div class="bcp-warning" style="display: none;">
+                    <div class="warning-box">
+                        <i class="fas fa-university"></i>
+                        <div>
+                            <strong>🏦 BCP - IMPORTANTE:</strong><br>
+                            • 1 crédito = 4 soles<br>
+                            • Monto mínimo: 10 soles<br>
+                            • No enviar notas en el pago ❌ o será rechazado sin reembolso<br>
+                            • Aceleración: Enviar foto de pago a @CymartSoporte telegram
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Nota importante para México -->
+                <div class="mexico-warning" style="display: none;">
+                    <div class="warning-box">
+                        <i class="fas fa-flag"></i>
+                        <div>
+                            <strong>🇲🇽 MÉXICO - IMPORTANTE:</strong><br>
+                            • 1 crédito = 23 pesos<br>
+                            • Monto mínimo: 230 pesos<br>
+                            • Poner en nota la palabra: "inversión"<br>
+                            • Aceleración: Enviar foto de pago a @CymartSoporte telegram
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Nota importante para República Dominicana -->
+                <div class="dominicana-warning" style="display: none;">
+                    <div class="warning-box">
+                        <i class="fas fa-flag"></i>
+                        <div>
+                            <strong>🇩🇴 REPÚBLICA DOMINICANA - IMPORTANTE:</strong><br>
+                            • 1 crédito = 68 pesos<br>
+                            • Monto mínimo: 680 pesos<br>
+                            • No notas, pago y listo ❌<br>
+                            • Solo transferencias banco a banco<br>
+                            • Bancos terceros = pérdida sin reembolso ⚠️
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Nota importante para Lemon Cash -->
+                <div class="lemoncash-warning" style="display: none;">
+                    <div class="warning-box">
+                        <i class="fas fa-coins"></i>
+                        <div>
+                            <strong>🍋 LEMON CASH - IMPORTANTE:</strong><br>
+                            • Disponible en: Argentina, Perú, Colombia, Brasil, México, Chile, Uruguay, Ecuador<br>
+                            • $lemontag: cymart22<br>
+                            • Procesamiento inmediato<br>
+                            • Aceleración: Enviar foto de pago a @CymartSoporte telegram
+                        </div>
+                    </div>
+                </div>
+                
+                <button type="submit" class="submit-btn">Enviar Solicitud de Pago</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal de Instrucciones -->
+    <div id="infoModal" class="modal">
+        <div class="modal-content">
+            <span class="close-info">&times;</span>
+            <h2>Cómo Recargar en el Servidor</h2>
+            <div class="instructions">
+                <ol>
+                    <li>Selecciona tu método de pago preferido</li>
+                    <li>Revisa los datos bancarios que se mostrarán</li>
+                    <li>Realiza la transferencia o pago correspondiente</li>
+                    <li>Completa el formulario con tus datos y el número de transacción</li>
+                    <li>Recibirás un correo de confirmación en breve</li>
+                    <li>Nuestro equipo procesará tu pago en un tiempo estimado de 24 horas</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h3>NachoTechRD</h3>
+                <p>Soporte profesional y recargas rápidas para tus servicios GSM. Tu socio de confianza en RD.</p>
+                <div class="social-links">
+                    <a class="social-button whatsapp-btn" href="https://wa.me/18093408435" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+                    <a class="social-button telegram-btn" href="https://t.me/nachotechrd" target="_blank"><i class="fab fa-telegram"></i> Telegram</a>
+                </div>
+            </div>
+
+            <div class="footer-col">
+                <h3>Métodos destacados</h3>
+                <ul class="footer-list">
+                    <li>Banco Popular (RD)</li>
+                    <li>BanReservas (RD)</li>
+                    <li>BHD (RD)</li>
+                    <li>MiO - Reserva (RD)</li>
+                    <li>Qik (RD)</li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h3>Contacto</h3>
+                <p><i class="fas fa-envelope"></i> ntdesweb2.0@gmail.com</p>
+                <p><i class="fab fa-paypal"></i> @nachotechrd</p>
+                <div class="newsletter-form">
+                    <input type="email" placeholder="Tu correo electrónico" id="newsletterEmail">
+                    <button onclick="subscribeNewsletter()"><i class="fas fa-paper-plane"></i></button>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="footer-bottom-content">
+                <p>&copy; 2025 NachoTechRD. Todos los derechos reservados.</p>
+                <div class="payment-logos">
+                    <i class="fab fa-cc-visa"></i>
+                    <i class="fab fa-cc-mastercard"></i>
+                    <i class="fab fa-cc-paypal"></i>
+                    <i class="fab fa-cc-amex"></i>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Firma Fija -->
+    <div class="fixed-signature">
+        <a href="https://wa.me/18093408435?text=Hola!%20Necesito%20un%20sitio%20web%20moderno%20y%20profesional%20para%20mi%20negocio%20🚀" target="_blank">
+            Desarrollado por NTDESWEB
+        </a>
+    </div>
+
+    <!-- Contenedor de Notificaciones -->
+    <div id="notificationContainer" class="notification-container"></div>
+
+    <!-- Script inline para ocultar comisión inmediatamente -->
+    <script>
+        // Ocultar comisión desde que carga la página (ANTES de cualquier otro script)
+        (function() {
+            function hideCommission() {
+                var commissionContainer = document.getElementById('modalCommissionContainer');
+                if (commissionContainer) {
+                    commissionContainer.style.display = 'none';
+                    commissionContainer.style.visibility = 'hidden';
+                    commissionContainer.style.opacity = '0';
+                    commissionContainer.style.height = '0';
+                    commissionContainer.style.padding = '0';
+                    commissionContainer.style.margin = '0';
+                    commissionContainer.style.overflow = 'hidden';
+                }
+            }
+            
+            // Ejecutar inmediatamente
+            hideCommission();
+            
+            // Ejecutar cuando el DOM esté listo
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', hideCommission);
+            } else {
+                hideCommission();
+            }
+            
+            // Ejecutar periódicamente por si acaso (protección adicional)
+            setInterval(hideCommission, 100);
+        })();
+    </script>
+    
+    <script src="paymentData.js"></script>
+    <script src="currencyConfig.js"></script>
+    <script src="config.js"></script>
+    <script src="telegramNotifications.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
+
