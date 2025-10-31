@@ -1,0 +1,74 @@
+================================================================================
+CONFIGURACIÓN RÁPIDA PARA IONOS - nachotechrd.com
+================================================================================
+
+INSTRUCCIONES PARA DESPUÉS DE SUBIR EL PROYECTO:
+
+1. EDITAR application/config/database.php
+   
+   Reemplazar las credenciales con las de tu base de datos IONOS:
+   
+   $db['default'] = array(
+       'hostname' => 'localhost',  // O el host que te dé IONOS
+       'username' => 'TU_USUARIO_MYSQL',
+       'password' => 'TU_CONTRASEÑA_MYSQL',
+       'database' => 'TU_NOMBRE_BD',
+       'port' => 3306,
+       // ... resto igual
+   );
+
+
+2. OBTENER IP DEL SERVIDOR
+   
+   Sube temporalmente este archivo: get_ip.php
+   <?php echo file_get_contents('https://api.ipify.org'); ?>
+   
+   Accede: https://nachotechrd.com/get_ip.php
+   Anota la IP y ELIMINA el archivo después.
+   
+   Esta IP debes agregarla en las whitelist de tus proveedores de APIs.
+
+
+3. ACTUALIZAR URL EN BASE DE DATOS
+   
+   Ejecutar en phpMyAdmin:
+   
+   UPDATE app_configurations 
+   SET ApplicationURL = 'https://nachotechrd.com' 
+   WHERE ApplicationName = 'NachoTechRD';
+
+
+4. CONFIGURAR CRON JOBS
+   
+   En el Panel de Control IONOS, crear dos tareas:
+   
+   */2 * * * * /usr/bin/php /ruta/completa/a/tu/proyecto/index.php cron send_imei_orders
+   */5 * * * * /usr/bin/php /ruta/completa/a/tu/proyecto/index.php cron receive_imei_orders
+   
+   (Para obtener la ruta: crear get_path.php con <?php echo __DIR__; ?>)
+
+
+5. VERIFICAR PERMISOS
+   
+   chmod 755 application/ system/ assets/
+   chmod 777 uploads/ application/cache/ application/logs/
+
+
+6. ELIMINAR ARCHIVOS TEMPORALES
+   
+   - get_ip.php
+   - get_path.php
+   - test_db.php
+   - Cualquier otro archivo de prueba
+
+
+================================================================================
+¡IMPORTANTE!
+================================================================================
+
+- El ENVIRONMENT está configurado en 'production' (seguro para producción)
+- Para desarrollo local, cambiar en index.php línea 21: 'development'
+- Las cookies seguras se habilitan automáticamente con HTTPS
+- Los errores NO se muestran en producción (solo se registran en logs)
+
+================================================================================
