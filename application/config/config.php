@@ -40,9 +40,16 @@ function detect_base_url() {
         $protocol = 'https';
     }
     
-    // 4. Construir URL base
+    // 4. Construir URL base - En Railway, no necesitamos el script_path completo
     if ($host) {
+        // Si es Railway (detectado por dominio .up.railway.app), usar solo dominio
+        if (strpos($host, '.up.railway.app') !== false || strpos($host, '.railway.app') !== false) {
+            return $protocol . '://' . $host . '/';
+        }
+        // Para otros casos, calcular path
         $script_path = str_replace(basename($_SERVER['SCRIPT_NAME']), '', $_SERVER['SCRIPT_NAME']);
+        // Eliminar index.php del path si existe
+        $script_path = str_replace('index.php', '', $script_path);
         return $protocol . '://' . $host . $script_path;
     }
     
