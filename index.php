@@ -18,7 +18,9 @@
  * NOTE: If you change these, also change the error_reporting() code below
  *
  */
-	define('ENVIRONMENT', 'production');
+	// Cambiar a 'development' temporalmente para ver errores durante deployment
+	// Cambiar de vuelta a 'production' cuando todo funcione
+	define('ENVIRONMENT', 'development');
 
 // Aumentar límite de variables de entrada para formularios con muchos servicios
 // Esto evita el error "Input variables exceeded 1000" al agregar muchos servicios
