@@ -379,16 +379,14 @@ class CI_Input {
 			switch ($which) {
 				case 'ipv4':
 					$flag = FILTER_FLAG_IPV4;
-					break;
+					return (bool) filter_var($ip, FILTER_VALIDATE_IP, $flag);
 				case 'ipv6':
 					$flag = FILTER_FLAG_IPV6;
-					break;
+					return (bool) filter_var($ip, FILTER_VALIDATE_IP, $flag);
 				default:
-					$flag = '';
-					break;
+					// PHP 8.3+: filter_var requiere int|array, no string vacío
+					return (bool) filter_var($ip, FILTER_VALIDATE_IP);
 			}
-
-			return (bool) filter_var($ip, FILTER_VALIDATE_IP, $flag);
 		}
 
 		if ($which !== 'ipv6' && $which !== 'ipv4')

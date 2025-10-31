@@ -1,0 +1,19 @@
+{
+  "name": "nachotechrd/gsm-management",
+  "description": "Sistema Profesional de Gestión GSM - NachoTechRD",
+  "type": "project",
+  "require": {
+    "php": "^7.4",
+    "ext-mysqli": "*",
+    "ext-curl": "*",
+    "ext-mbstring": "*",
+    "ext-openssl": "*",
+    "ext-json": "*"
+  },
+  "config": {
+    "platform": {
+      "php": "7.4"
+    }
+  }
+}
+

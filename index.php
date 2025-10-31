@@ -44,9 +44,9 @@ if (defined('ENVIRONMENT'))
 	
 	case 'testing':
 	case 'production':
-		// Habilitar errores temporalmente para debugging en Railway
-		// TODO: Deshabilitar en producción final
-		error_reporting(E_ALL);
+		// Suprimir warnings de deprecación (CodeIgniter antiguo en PHP 8.3)
+		// Pero mostrar errores fatales
+		error_reporting(E_ALL & ~E_DEPRECATED & ~E_STRICT);
 		ini_set('display_errors', 1);
 	break;
 
