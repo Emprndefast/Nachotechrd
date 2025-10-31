@@ -265,14 +265,23 @@
                 continue; // Saltar servicios que no son IMEI
               }
               
+              // Verificar que el servicio tenga un ID válido
+              if(!isset($service['SERVICEID']) || empty($service['SERVICEID'])) {
+                continue; // Saltar servicios sin ID válido
+              }
+              
               $service_id = $service['SERVICEID'];
+              $service_name = isset($service['SERVICENAME']) ? $service['SERVICENAME'] : 'Servicio sin nombre';
+              $service_credit = isset($service['CREDIT']) ? floatval($service['CREDIT']) : 0;
+              $service_info = isset($service['INFO']) ? $service['INFO'] : '';
+              $service_time = isset($service['TIME']) ? $service['TIME'] : '';
           ?>
-                          <tr class="service-row" data-service-id="<?php echo $service_id; ?>" data-service-name="<?php echo htmlspecialchars(strtolower($service['SERVICENAME']), ENT_QUOTES, 'UTF-8'); ?>" data-original-price="<?php echo floatval($service['CREDIT']); ?>">
+                          <tr class="service-row" data-service-id="<?php echo $service_id; ?>" data-service-name="<?php echo htmlspecialchars(strtolower($service_name), ENT_QUOTES, 'UTF-8'); ?>" data-original-price="<?php echo $service_credit; ?>">
                             <td><input type="checkbox" value="<?php echo $service_id; ?>" name="chk[]" class="span12 service-checkbox" onchange="updateSelectedCount()" /></td>		
-                            <td><input type="text" name="ServiceName[<?php echo $service_id; ?>]" value="<?php echo htmlspecialchars($service['SERVICENAME'], ENT_QUOTES, 'UTF-8'); ?>" class="span12" /></td>
-                            <td><input type="text" value="<?php echo $service['CREDIT']; ?>" class="span12" disabled="disabled" style="font-weight: 700; color: #059669;" /></td>
-                            <td><?php echo $service['INFO']; ?></td>
-                            <td><input type="text" name="Time[<?php echo $service_id; ?>]" value="<?php echo $service['TIME']; ?>" class="span12" /></td>
+                            <td><input type="text" name="ServiceName[<?php echo $service_id; ?>]" value="<?php echo htmlspecialchars($service_name, ENT_QUOTES, 'UTF-8'); ?>" class="span12" /></td>
+                            <td><input type="text" value="<?php echo $service_credit; ?>" class="span12" disabled="disabled" style="font-weight: 700; color: #059669;" /></td>
+                            <td><?php echo htmlspecialchars($service_info, ENT_QUOTES, 'UTF-8'); ?></td>
+                            <td><input type="text" name="Time[<?php echo $service_id; ?>]" value="<?php echo htmlspecialchars($service_time, ENT_QUOTES, 'UTF-8'); ?>" class="span12" /></td>
                             <td>
                             <select name="NetworkID[<?php echo $service_id; ?>]"  class="span12" >
                             <?php foreach($networks as $val): ?>
@@ -280,23 +289,24 @@
                             <?php endforeach; ?>	
                             </select>
                             </td>
-                            <td><input type="number" name="Price[<?php echo $service_id; ?>]" value="<?php echo $service['CREDIT']; ?>" class="span12 price-input" step="0.01" min="0" data-service-id="<?php echo $service_id; ?>" style="font-weight: 700; color: #8b5cf6;" /></td>                                   
+                            <td><input type="number" name="Price[<?php echo $service_id; ?>]" value="<?php echo $service_credit; ?>" class="span12 price-input" step="0.01" min="0" data-service-id="<?php echo $service_id; ?>" style="font-weight: 700; color: #8b5cf6;" /></td>                                   
                         </tr>
           <?php
           // Guardar GROUPNAME para agrupar servicios en el frontend
           $group_name = isset($groups['GROUPNAME']) ? $groups['GROUPNAME'] : (isset($groups['GROUPTYPE']) ? 'Grupo General' : 'Sin Grupo');
           echo form_hidden("GroupName[$service_id]", htmlspecialchars($group_name, ENT_QUOTES, 'UTF-8'));
           
-          echo form_hidden("Network[$service_id]", $service['Requires.Network']);
-          echo form_hidden("Mobile[$service_id]", $service['Requires.Mobile']);
-          echo form_hidden("Provider[$service_id]", $service['Requires.Provider']);
-          echo form_hidden("PIN[$service_id]", $service['Requires.PIN']);
-          echo form_hidden("KBH[$service_id]", $service['Requires.KBH']);
-          echo form_hidden("MEP[$service_id]", $service['Requires.MEP']);
-          echo form_hidden("PRD[$service_id]", $service['Requires.PRD']);
-          echo form_hidden("Type[$service_id]", $service['Requires.Type']);
-          echo form_hidden("Locks[$service_id]", $service['Requires.Locks']);
-          echo form_hidden("Reference[$service_id]", $service['Requires.Reference']);
+          // Usar null coalescing operator (??) para evitar errores de undefined array key
+          echo form_hidden("Network[$service_id]", $service['Requires.Network'] ?? '');
+          echo form_hidden("Mobile[$service_id]", $service['Requires.Mobile'] ?? '');
+          echo form_hidden("Provider[$service_id]", $service['Requires.Provider'] ?? '');
+          echo form_hidden("PIN[$service_id]", $service['Requires.PIN'] ?? '');
+          echo form_hidden("KBH[$service_id]", $service['Requires.KBH'] ?? '');
+          echo form_hidden("MEP[$service_id]", $service['Requires.MEP'] ?? '');
+          echo form_hidden("PRD[$service_id]", $service['Requires.PRD'] ?? '');
+          echo form_hidden("Type[$service_id]", $service['Requires.Type'] ?? '');
+          echo form_hidden("Locks[$service_id]", $service['Requires.Locks'] ?? '');
+          echo form_hidden("Reference[$service_id]", $service['Requires.Reference'] ?? '');
         }
       }
       ?>
