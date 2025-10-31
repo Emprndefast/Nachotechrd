@@ -48,11 +48,14 @@
 $active_group = 'default';
 $active_record = TRUE;
 
+// Configuración de base de datos - Usar variables de entorno en producción (Railway, Render, etc.)
+// Si no están definidas, usar valores por defecto (desarrollo local)
 $db['default'] = array(
-    'hostname' => 'localhost',
-    'username' => 'root',
-    'password' => '',
-    'database' => 'nachotechrd',
+    'hostname' => getenv('MYSQL_HOST') ?: getenv('MYSQLHOST') ?: 'localhost',
+    'username' => getenv('MYSQL_USER') ?: getenv('MYSQLUSER') ?: 'root',
+    'password' => getenv('MYSQL_PASSWORD') ?: getenv('MYSQLPASSWORD') ?: '',
+    'database' => getenv('MYSQL_DATABASE') ?: getenv('MYSQLDATABASE') ?: 'nachotechrd',
+    'port' => getenv('MYSQL_PORT') ?: getenv('MYSQLPORT') ?: 3306,
     'dbdriver' => 'mysqli',
     'dbprefix' => '',
     'pconnect' => TRUE,
