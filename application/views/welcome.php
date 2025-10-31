@@ -125,7 +125,7 @@
 		
 		/* Hero Section */
 		.hero {
-			padding: 120px 30px 80px;
+			padding: 20px 30px 80px;
 			text-align: center;
 		}
 		
@@ -162,6 +162,25 @@
 			-webkit-background-clip: text;
 			-webkit-text-fill-color: transparent;
 			background-clip: text;
+			display: inline-block;
+			min-width: 400px;
+			position: relative;
+		}
+		
+		/* Animación para cambio de texto */
+		.gradient-text {
+			animation: fadeInRotate 0.8s ease-in-out;
+		}
+		
+		@keyframes fadeInRotate {
+			0% {
+				opacity: 0;
+				transform: translateY(20px) rotateX(90deg);
+			}
+			100% {
+				opacity: 1;
+				transform: translateY(0) rotateX(0deg);
+			}
 		}
 		
 		.hero p {
@@ -622,7 +641,7 @@
 			<div class="hero-badge">✨ Plataforma Premium de Desbloqueo</div>
 			<h1>
 				Desbloquea el Poder de<br>
-				<span class="gradient-text">Servicios IMEI Premium</span>
+				<span class="gradient-text" id="rotatingPhrase">Servicios IMEI Premium</span>
 			</h1>
 			<p>
 				Plataforma líder en servicios de desbloqueo profesional, bypass iCloud, liberación de red y soluciones móviles avanzadas. 
@@ -866,6 +885,45 @@
 		window.addEventListener('resize', () => {
 			updateCarousel();
 		});
+		
+		// Frase rotativa dinámica - Efecto similar a otros proyectos
+		const rotatingPhrases = [
+			'Servicios IMEI Premium',
+			'Bypass iCloud Avanzado',
+			'Liberación de Red Global',
+			'Servidores Express Pro',
+			'Herramientas Premium',
+			'Soluciones Móviles Elite',
+			'API Integration Master',
+			'Tecnología de Vanguardia'
+		];
+		
+		let currentPhraseIndex = 0;
+		const phraseElement = document.getElementById('rotatingPhrase');
+		
+		function rotatePhrase() {
+			// Fade out
+			phraseElement.style.opacity = '0';
+			phraseElement.style.transform = 'translateY(-20px) rotateX(-90deg)';
+			
+			setTimeout(() => {
+				// Cambiar texto
+				currentPhraseIndex = (currentPhraseIndex + 1) % rotatingPhrases.length;
+				phraseElement.textContent = rotatingPhrases[currentPhraseIndex];
+				
+				// Fade in con animación
+				phraseElement.style.opacity = '1';
+				phraseElement.style.transform = 'translateY(0) rotateX(0deg)';
+			}, 300);
+		}
+		
+		// Cambiar frase cada 3 segundos
+		setInterval(rotatePhrase, 3000);
+		
+		// Iniciar con animación suave
+		setTimeout(() => {
+			phraseElement.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+		}, 100);
 	</script>
 </body>
 </html>
