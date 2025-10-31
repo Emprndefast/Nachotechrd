@@ -43,11 +43,17 @@ if (defined('ENVIRONMENT'))
 		break;
 	
 	case 'testing':
-	case 'production':
-		// Suprimir warnings de deprecación (CodeIgniter antiguo en PHP 8.3)
-		// Pero mostrar errores fatales
+		// En testing, mostrar errores pero no warnings de deprecación
 		error_reporting(E_ALL & ~E_DEPRECATED & ~E_STRICT);
 		ini_set('display_errors', 1);
+	break;
+	
+	case 'production':
+		// En producción, ocultar todos los errores al usuario (seguridad)
+		// Los errores se registrarán en el log pero no se mostrarán
+		error_reporting(E_ALL & ~E_DEPRECATED & ~E_STRICT & ~E_WARNING & ~E_NOTICE);
+		ini_set('display_errors', 0);
+		ini_set('log_errors', 1);
 	break;
 
 		default:

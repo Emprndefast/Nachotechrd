@@ -1,0 +1,6 @@
+tools/
+.git/
+.htaccess
+*.md
+!README.md
+

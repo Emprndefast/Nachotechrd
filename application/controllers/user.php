@@ -109,10 +109,12 @@ class User extends FSD_Controller
 			$this->form_validation->set_rules('Password', 'Password', 'required|min_length[5]');
 			if ($this->form_validation->run() !== FALSE)
 			{
-				$data = $this->input->post(NULL, TRUE);			
-				$query = $this->member_model->get_where(array( 'Email' => $data['Email'], 'Password' => md5($data['Password'])));
+				$data = $this->input->post(NULL, TRUE);
+				// Buscar usuario por email
+				$query = $this->member_model->get_where(array('Email' => $data['Email']));
 				
-				if(count($query) > 0)
+				// Verificar password (soporta MD5 legacy y bcrypt moderno)
+				if(count($query) > 0 && verify_password($data['Password'], $query[0]['Password']))
 				{
 					if($query[0]["Status"] == "Enabled")
 					{
@@ -165,7 +167,7 @@ class User extends FSD_Controller
 				$token = rand(123456789, 987654321);
 				unset($data['CPassword']);
 				$data['Token'] = $token;
-				$data['Password'] = md5($data['Password']);
+				$data['Password'] = hash_password($data['Password']); // Moderno: bcrypt
 				$data['Status'] = 'Disabled';
                 $data["CreatedDateTime"] = date("y-m-d H:i:s");
 								

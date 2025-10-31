@@ -1,7 +1,81 @@
-##RewriteEngine on
-##RewriteCond $1 !^(index\.php|img|assets|css|fonts|js|uploads|robots\.txt|unlock52)
-##RewriteRule ^(.*)$ /index.php/$1 [L]
+# ============================================================================
+# IONOS HOSTING - Configuración para nachotechrd.com
+# ============================================================================
+# Configuración optimizada para hosting compartido IONOS con Apache
+# ============================================================================
 
-# Aumentar límite de variables de entrada para formularios con muchos servicios
-# Esto evita el error "Input variables exceeded 1000"
+# Habilitar RewriteEngine para URLs amigables
+RewriteEngine On
+
+# Redirigir HTTP a HTTPS (seguridad)
+RewriteCond %{HTTPS} off
+RewriteCond %{HTTP_HOST} ^(www\.)?nachotechrd\.com$ [NC]
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Redirigir www a no-www (opcional - descomentar si prefieres sin www)
+# RewriteCond %{HTTP_HOST} ^www\.nachotechrd\.com$ [NC]
+# RewriteRule ^(.*)$ https://nachotechrd.com/$1 [L,R=301]
+
+# Permitir acceso directo a archivos estáticos y carpetas
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond $1 !^(index\.php|img|assets|css|fonts|js|uploads|Pagos|robots\.txt|favicon\.ico)
+
+# Redirigir todo lo demás a index.php (CodeIgniter)
+RewriteRule ^(.*)$ index.php/$1 [L]
+
+# ============================================================================
+# Configuración PHP para IONOS
+# ============================================================================
+
+# Aumentar límite de variables de entrada (necesario para formularios con muchos servicios)
 php_value max_input_vars 5000
+
+# Aumentar tiempo de ejecución para operaciones largas
+php_value max_execution_time 300
+
+# Aumentar límite de memoria
+php_value memory_limit 256M
+
+# Aumentar tamaño máximo de subida de archivos
+php_value upload_max_filesize 10M
+php_value post_max_size 12M
+
+# Configuración de timezone (ajustar según tu ubicación)
+php_value date.timezone "America/Santo_Domingo"
+
+# ============================================================================
+# Seguridad y Performance
+# ============================================================================
+
+# Prevenir acceso a archivos sensibles
+<FilesMatch "\.(htaccess|htpasswd|ini|log|sh|sql|bak)$">
+    Order Allow,Deny
+    Deny from all
+</FilesMatch>
+
+# Proteger archivos de configuración
+<FilesMatch "^(config|database|routes|autoload)\.php$">
+    Order Allow,Deny
+    Deny from all
+</FilesMatch>
+
+# Habilitar compresión GZIP (mejora performance)
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript application/json
+</IfModule>
+
+# Cache de archivos estáticos (mejora performance)
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType image/jpg "access plus 1 year"
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/gif "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType text/css "access plus 1 month"
+    ExpiresByType application/javascript "access plus 1 month"
+    ExpiresByType text/javascript "access plus 1 month"
+</IfModule>
+
+# Prevenir listado de directorios
+Options -Indexes

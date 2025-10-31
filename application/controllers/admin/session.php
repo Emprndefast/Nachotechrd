@@ -25,15 +25,16 @@ class Session extends CI_Controller
 
 		if ($this->form_validation->run() !== FALSE)
 		{
+			// Buscar empleado por email y status
 			$result = $this->employee_model->get_where(
 						array(
 							'Email' => $this->input->post('Email'),
-							'Password' => md5($this->input->post('Password')),
 							'Status' => 'Enabled'
 						)
 					);
 			
-			if (count($result)>0)
+			// Verificar password (soporta MD5 legacy y bcrypt moderno)
+			if (count($result)>0 && verify_password($this->input->post('Password'), $result[0]['Password']))
 			{
 				$data = array(
 					'employee_id' => $result[0]["ID"],

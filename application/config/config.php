@@ -14,7 +14,7 @@
 | path to your installation.
 |
 */
-// Configuración de base_url - Detección inteligente para Railway y desarrollo local
+// Configuración de base_url - Detección inteligente para IONOS, Railway y desarrollo local
 function detect_base_url() {
     // 1. Variable de entorno (prioridad máxima - Railway, producción)
     if (getenv('BASE_URL')) {
@@ -22,7 +22,7 @@ function detect_base_url() {
         return rtrim($url, '/') . '/';
     }
     
-    // 2. Railway/Proxies - X-Forwarded-Host (Railway usa esto)
+    // 2. Detectar host
     $host = null;
     if (isset($_SERVER['HTTP_X_FORWARDED_HOST'])) {
         $host = $_SERVER['HTTP_X_FORWARDED_HOST'];
@@ -35,21 +35,30 @@ function detect_base_url() {
     if (
         (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') ||
         (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') ||
-        (isset($_SERVER['HTTP_X_FORWARDED_SSL']) && $_SERVER['HTTP_X_FORWARDED_SSL'] === 'on')
+        (isset($_SERVER['HTTP_X_FORWARDED_SSL']) && $_SERVER['HTTP_X_FORWARDED_SSL'] === 'on') ||
+        (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == 443)
     ) {
         $protocol = 'https';
     }
     
-    // 4. Construir URL base - En Railway, no necesitamos el script_path completo
+    // 4. Construir URL base
     if ($host) {
-        // Si es Railway (detectado por dominio .up.railway.app), usar solo dominio
+        // Detectar dominios específicos
+        // IONOS - nachotechrd.com (producción principal)
+        if (strpos($host, 'nachotechrd.com') !== false) {
+            return $protocol . '://' . $host . '/';
+        }
+        // Railway
         if (strpos($host, '.up.railway.app') !== false || strpos($host, '.railway.app') !== false) {
             return $protocol . '://' . $host . '/';
         }
-        // Para otros casos, calcular path
+        // Hosting compartido IONOS (otros dominios)
+        // Para hosting compartido, el proyecto está en la raíz o en una subcarpeta
         $script_path = str_replace(basename($_SERVER['SCRIPT_NAME']), '', $_SERVER['SCRIPT_NAME']);
-        // Eliminar index.php del path si existe
         $script_path = str_replace('index.php', '', $script_path);
+        // Normalizar el path (eliminar dobles slashes)
+        $script_path = '/' . trim($script_path, '/') . '/';
+        if ($script_path === '//') $script_path = '/';
         return $protocol . '://' . $host . $script_path;
     }
     
@@ -268,7 +277,9 @@ $config['directory_trigger']	= 'd'; // experimental not currently in use
 | your log files will fill up very fast.
 |
 */
-$config['log_threshold'] = 4; // 0=disable, 1=error, 2=debug, 3=info, 4=all
+// Log threshold: 0=disable, 1=error, 2=debug, 3=info, 4=all
+// En producción, solo registrar errores (1) para mejor rendimiento
+$config['log_threshold'] = (ENVIRONMENT === 'production') ? 1 : 4;
 
 /*
 |--------------------------------------------------------------------------
@@ -356,7 +367,8 @@ $config['sess_time_to_update']	= 300;
 $config['cookie_prefix']	= "";
 $config['cookie_domain']	= "";
 $config['cookie_path']		= "/";
-$config['cookie_secure']	= FALSE;
+// Habilitar cookies seguras en producción (HTTPS)
+$config['cookie_secure']	= (ENVIRONMENT === 'production' && (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on')) ? TRUE : FALSE;
 
 /*
 |--------------------------------------------------------------------------

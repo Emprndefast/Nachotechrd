@@ -27,9 +27,9 @@ test/
 !system/libraries/Unit_test.php
 !system/language/english/unit_test_lang.php
 
-# Archivos de configuración local
-application/config/database.php
-application/config/config.php
+# Archivos de configuración local (comentado - ahora usan variables de entorno)
+# application/config/database.php
+# application/config/config.php
 application/logs/*.php
 
 # Archivos temporales
