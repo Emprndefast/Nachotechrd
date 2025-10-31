@@ -14,7 +14,43 @@
 | path to your installation.
 |
 */
-$config['base_url']						= 	'http://localhost/nachotechrd/';
+// Configuración de base_url - Detección inteligente para Railway y desarrollo local
+function detect_base_url() {
+    // 1. Variable de entorno (prioridad máxima - Railway, producción)
+    if (getenv('BASE_URL')) {
+        $url = getenv('BASE_URL');
+        return rtrim($url, '/') . '/';
+    }
+    
+    // 2. Railway/Proxies - X-Forwarded-Host (Railway usa esto)
+    $host = null;
+    if (isset($_SERVER['HTTP_X_FORWARDED_HOST'])) {
+        $host = $_SERVER['HTTP_X_FORWARDED_HOST'];
+    } elseif (isset($_SERVER['HTTP_HOST'])) {
+        $host = $_SERVER['HTTP_HOST'];
+    }
+    
+    // 3. Determinar protocolo (HTTPS/HTTP)
+    $protocol = 'http';
+    if (
+        (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') ||
+        (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') ||
+        (isset($_SERVER['HTTP_X_FORWARDED_SSL']) && $_SERVER['HTTP_X_FORWARDED_SSL'] === 'on')
+    ) {
+        $protocol = 'https';
+    }
+    
+    // 4. Construir URL base
+    if ($host) {
+        $script_path = str_replace(basename($_SERVER['SCRIPT_NAME']), '', $_SERVER['SCRIPT_NAME']);
+        return $protocol . '://' . $host . $script_path;
+    }
+    
+    // 5. Fallback para desarrollo local
+    return 'http://localhost/nachotechrd/';
+}
+
+$config['base_url'] = detect_base_url();
 $config['assets_url']					= 	$config['base_url'].'assets/';
 $config['page_url']						= 	$config['base_url'].'uploads/cms/pages/';
 $config['page_thumb_url']				= 	$config['base_url'].'uploads/cms/pages/thumbs/';
